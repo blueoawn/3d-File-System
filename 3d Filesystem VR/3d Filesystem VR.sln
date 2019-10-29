@@ -1,11 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio for Mac
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{9D827F29-03CA-484B-6592-55531D4FC2D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oculus.VR", "Oculus.VR.csproj", "{6A572968-5E79-7D9D-7114-4AD5E81FD3C1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRTK.Samples.Farm.Runtime", "VRTK.Samples.Farm.Runtime.csproj", "{27C5A7E6-DA56-6FAE-6AED-452882FE80BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{1828A47E-8AD5-BFD7-B71A-917C363712B9}"
 EndProject
@@ -27,10 +25,6 @@ Global
 		{6A572968-5E79-7D9D-7114-4AD5E81FD3C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A572968-5E79-7D9D-7114-4AD5E81FD3C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A572968-5E79-7D9D-7114-4AD5E81FD3C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27C5A7E6-DA56-6FAE-6AED-452882FE80BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27C5A7E6-DA56-6FAE-6AED-452882FE80BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27C5A7E6-DA56-6FAE-6AED-452882FE80BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27C5A7E6-DA56-6FAE-6AED-452882FE80BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1828A47E-8AD5-BFD7-B71A-917C363712B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1828A47E-8AD5-BFD7-B71A-917C363712B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1828A47E-8AD5-BFD7-B71A-917C363712B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
