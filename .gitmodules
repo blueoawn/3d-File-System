@@ -1,0 +1,3 @@
+[submodule "3d-Filesystem-VR/Assets/VRTK"]
+	path = 3d-Filesystem-VR/Assets/VRTK
+	url = https://github.com/ExtendRealityLtd/VRTK.git
