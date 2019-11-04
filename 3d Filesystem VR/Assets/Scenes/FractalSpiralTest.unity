@@ -338,10 +338,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 1e8832297b9b7a54490985ed9bbc6369, type: 2}
-  maxDepth: 5
-  childScale: 0.5
+  maxDepth: 10
+  childScale: 0.75
   meshes:
   - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  maxRotationSpeed: 0
-  maxTwist: 0
-  spawnProbability: 1
+  forwardSpeed: -0.5
+  radius: 4

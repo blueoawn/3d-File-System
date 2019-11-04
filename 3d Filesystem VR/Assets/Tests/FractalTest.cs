@@ -29,16 +29,10 @@ public class FractalTest : MonoBehaviour
 	}
 
 	public Mesh[] meshes;
-	public float maxRotationSpeed;
-	public float maxTwist;
-
-	private float rotationSpeed;
 
 	// Use this for initialization
 	void Start ()
 	{
-		rotationSpeed = Random.Range(-maxRotationSpeed, maxRotationSpeed);
-		transform.Rotate(Random.Range(-maxTwist, maxTwist), 0f, 0f);
 		if (_materials == null)
 		{
 			InitializeMaterials();
@@ -69,56 +63,44 @@ public class FractalTest : MonoBehaviour
 		Quaternion.Euler(-90f, 0f, 0f) 
 	};
 
-	public float spawnProbability;
-
 	private IEnumerator CreateChildren()
 	{
-		for (int i = 0; i < childDirections.Length; i++)
-		{
-			if (Random.value < spawnProbability)
-			{
-				yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
-               	new GameObject("Fractal Child").AddComponent<FractalTest>().
-                	Initialize(this, i);
-			}
-			
-		}
+		yield return new WaitForSeconds(0.25f);
+		new GameObject("Fractal Child").AddComponent<FractalTest>().
+			Initialize(this);
 	}
 
-	/*private IEnumerator CreatChildren()
-	{
-		yield return new WaitForSeconds(0.5f);
-		new GameObject("Fractal Child").AddComponent<Fractal>().
-			Initialize(this, Vector3.up, Quaternion.identity);
-		yield return new WaitForSeconds(0.5f);
-		new GameObject("Fractal Child").AddComponent<Fractal>().
-			Initialize(this, Vector3.right, Quaternion.Euler(0f, 0f, -90f));
-		yield return new WaitForSeconds(0.5f);
-		new GameObject("Fractal Child").AddComponent<Fractal>().
-			Initialize(this, Vector3.left, Quaternion.Euler(0f, 0f, 90f));
-	}*/
+	// public float circleSpeed = 1;
+	public float forwardSpeed = -0.5f; // Assuming negative Z is towards the camera
+	public float radius = 4;
+	// public float circleGrowSpeed = 0.1f;
+	private float zPos = 0;
 
-	private void Initialize(FractalTest parent, int childIndex)
+	private void Initialize(FractalTest parent)
 	{
+		float xPos = Mathf.Cos(Time.time) * radius;
+		float yPos = Mathf.Sin(Time.time) * radius;
+		zPos += forwardSpeed * Time.deltaTime;
+		Debug.Log(Time.time);
 		meshes = parent.meshes;
 		_materials = parent._materials;
 		material = parent.material;
 		maxDepth = parent.maxDepth;
-		spawnProbability = parent.spawnProbability;
-		maxRotationSpeed = parent.maxRotationSpeed;
-		maxTwist = parent.maxTwist;
 		depth = parent.depth + 1;
 		childScale = parent.childScale;
 		transform.parent = parent.transform;
 		transform.localScale = Vector3.one * childScale;
-		transform.localPosition = 
-			childDirections[childIndex] * (0.5f + 0.5f * childScale);
-		transform.localRotation = childOrientations[childIndex];
+		Vector3 vec = new Vector3(xPos, yPos, zPos);
+		// transform.localPosition = 
+		// 	vec * (0.5f + 0.5f * childScale);
+		transform.localPosition = vec;
+		transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+		// radius += circleGrowSpeed;
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+		// transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
 	}
 }
