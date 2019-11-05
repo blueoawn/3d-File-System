@@ -70,18 +70,14 @@ public class FractalTest : MonoBehaviour
 			Initialize(this);
 	}
 
-	// public float circleSpeed = 1;
-	public float forwardSpeed = -0.5f; // Assuming negative Z is towards the camera
+	public float forwardSpeed = -1f; // Assuming negative Z is towards the camera
 	public float radius = 4;
-	// public float circleGrowSpeed = 0.1f;
-	private float zPos = 0;
 
 	private void Initialize(FractalTest parent)
 	{
-		float xPos = Mathf.Cos(Time.time) * radius;
-		float yPos = Mathf.Sin(Time.time) * radius;
-		zPos += forwardSpeed * Time.deltaTime;
-		Debug.Log(Time.time);
+		float xPos = parent.transform.localPosition.x + Mathf.Cos(Time.time) * radius;
+		float yPos = parent.transform.localPosition.y + Mathf.Sin(Time.time) * radius;
+		float zPos = parent.transform.localPosition.z + forwardSpeed * Time.time;
 		meshes = parent.meshes;
 		_materials = parent._materials;
 		material = parent.material;
@@ -91,11 +87,8 @@ public class FractalTest : MonoBehaviour
 		transform.parent = parent.transform;
 		transform.localScale = Vector3.one * childScale;
 		Vector3 vec = new Vector3(xPos, yPos, zPos);
-		// transform.localPosition = 
-		// 	vec * (0.5f + 0.5f * childScale);
-		transform.localPosition = vec;
+		transform.localPosition = vec * (0.5f + 0.5f * childScale);
 		transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-		// radius += circleGrowSpeed;
 	}
 
 	// Update is called once per frame
