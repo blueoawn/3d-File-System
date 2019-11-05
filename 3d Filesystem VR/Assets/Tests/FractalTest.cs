@@ -10,6 +10,7 @@ public class FractalTest : MonoBehaviour
 
 	private int depth = 0;
 	private Material[,] _materials;
+	private GameObject camera;
 
 	private void InitializeMaterials()
 	{
@@ -33,6 +34,10 @@ public class FractalTest : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		camera = GameObject.Find("Main Camera");
+		camera.transform.localPosition = transform.localPosition;
+		camera.transform.LookAt(transform);
+
 		if (_materials == null)
 		{
 			InitializeMaterials();
@@ -88,7 +93,7 @@ public class FractalTest : MonoBehaviour
 		transform.localScale = Vector3.one * childScale;
 		Vector3 vec = new Vector3(xPos, yPos, zPos);
 		transform.localPosition = vec * (0.5f + 0.5f * childScale);
-		transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+		transform.localRotation = Quaternion.Euler(0f, 0f, -90f);
 	}
 
 	// Update is called once per frame
