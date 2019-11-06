@@ -90,10 +90,19 @@ public class DataNode : MonoBehaviour
                 float increment = Mathf.PI * (3.0f - Mathf.Sqrt(5.0f));
                 int i = 0;
 
+                float radius = 4;
+                float forwardSpeed = -1f;
+
+
                 foreach(var fi in diTop.EnumerateFiles())
                 {
                     try
                     {
+                         
+                        float transformPositionX = transform.localPosition.x + Mathf.Cos(Time.time) * radius;
+                        float transformPositionY = transform.localPosition.y + Mathf.Sin(Time.time) * radius;
+                        float transformPositionZ = transform.localPosition.z + forwardSpeed * Time.time;
+
                         float y = ((i * offsetFilres) - 1) + (offsetFilres / 2);
                         float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
 
@@ -103,7 +112,7 @@ public class DataNode : MonoBehaviour
                         float z = Mathf.Sin(phi) * r;
 
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        gObj.transform.position = new Vector3(x + transform.position.x, y + transform.position.y, z + transform.position.z);
+                        gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
                         gObj.transform.localScale *= 0.1f;
 
                         gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
@@ -142,6 +151,10 @@ public class DataNode : MonoBehaviour
                 {
                     try
                     {
+                        float transformPositionX = transform.localPosition.x + Mathf.Cos(Time.time) * radius;
+                        float transformPositionY = transform.localPosition.y + Mathf.Sin(Time.time) * radius;
+                        float transformPositionZ = transform.localPosition.z + forwardSpeed * Time.time;
+
                         float y = ((i * offset) - 1) + (offset / 2);
                         float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
 
@@ -151,7 +164,7 @@ public class DataNode : MonoBehaviour
                         float z = Mathf.Sin(phi) * r;
 
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                        gObj.transform.position = new Vector3(x + transform.position.x, y + transform.position.y, z + transform.position.z);
+                        gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
                         gObj.transform.SetParent(transform);
                         gObj.transform.LookAt(transform);
                         gObj.transform.Translate(Vector3.forward * -(samples%2), Space.Self);
