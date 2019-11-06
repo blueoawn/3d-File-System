@@ -34,9 +34,9 @@ public class FractalTest : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		camera = GameObject.Find("Main Camera");
-		camera.transform.localPosition = transform.localPosition;
-		camera.transform.LookAt(transform);
+		// camera = GameObject.Find("Main Camera");
+		// camera.transform.localPosition = transform.localPosition;
+		// camera.transform.LookAt(transform);
 
 		if (_materials == null)
 		{
