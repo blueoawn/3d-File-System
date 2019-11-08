@@ -34,27 +34,16 @@ public class DataNode : MonoBehaviour
 
     public void CollapseNode()
     {
-        string docPath = FullName;
-        DirectoryInfo diTop = new DirectoryInfo(docPath);
-        Debug.Log("collapse");
-        int count = 0;
-        foreach (var fi in diTop.EnumerateFiles())
+        //transform.tranform gives me the child nodes to destroy and collapse my nodes
+        //if we are in the topmost node don't collapse anything
+        if (transform.transform != null)
         {
-            count += 1;
-            Debug.Log("name of game object enter");
-            GameObject gameObject = GameObject.Find(fi.FullName);
-            Debug.Log("name of game middle" + gameObject);
-            Debug.Log("name of game exit" + gameObject.name);
+            foreach (Transform t in transform.transform)
+            {
+                Destroy(t.gameObject);
+            }
         }
-
-        Debug.Log("count" + count);
-        /*LineRenderer lineRenderer = cGObj.GetComponent<LineRenderer>();
-        Debug.Log("lineRenderer" + lineRenderer);
-        Destroy(lineRenderer);*/
-
     }
-
-
 
 
 
