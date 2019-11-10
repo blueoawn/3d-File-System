@@ -82,6 +82,8 @@ public class DataNode : MonoBehaviour
                 float radius = 4;
                 float forwardSpeed = -1f;
                 var driveGameObj = (GameObject)Resources.Load("Prefabs/Drive", typeof(GameObject));
+                //New line of code trying to create the Folder prefab game obj
+                var FolderGameObj= (GameObject)Resources.Load("Prefabs/Folder", typeof(GameObject));
                 //Transform myBrick = Instantiate(driveGameObj)
 
                 if (driveGameObj == null) {
@@ -118,8 +120,8 @@ public class DataNode : MonoBehaviour
                         gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
                         gObj.transform.localScale *= 0.1f;
 
-                        gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
-                        gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
+                        //gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
+                       // gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
 
                         gObj.transform.SetParent(transform);
                         gObj.name = fi.FullName;
@@ -170,7 +172,7 @@ public class DataNode : MonoBehaviour
 
                
 
-                        var gObj = (GameObject) Instantiate(driveGameObj, new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ), Quaternion.identity);
+                        var gObj = (GameObject) Instantiate(FolderGameObj, new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ), Quaternion.identity);
 
                         gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
                         gObj.transform.SetParent(transform);
@@ -186,8 +188,8 @@ public class DataNode : MonoBehaviour
                         gObj.transform.localScale *= diScale; //normalizedScale * Time.deltaTime;
 
 
-                        gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
-                        gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255,0,0));
+                       // gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
+                        //gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255,0,0));
 
                         gObj.name = di.FullName;
 
