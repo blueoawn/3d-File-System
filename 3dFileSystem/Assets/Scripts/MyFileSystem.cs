@@ -13,6 +13,8 @@ public class MyFileSystem : MonoBehaviour
     public Text txtSelectedNode;
     public Text txtHoveredOverNode;
 
+    public InfoPanel infoPanel;
+
     public DataNode currentSelectedNode;
     private static MyFileSystem _instance;
     public static MyFileSystem Instance
@@ -41,6 +43,8 @@ public class MyFileSystem : MonoBehaviour
     {
         txtSelectedNode.text = "";
         txtHoveredOverNode.text = "";
+
+        infoPanel = GameObject.Find("Info Panel").GetComponent<InfoPanel>();
 
         float index = 0;
         foreach (var drive in DriveInfo.GetDrives())
@@ -124,8 +128,10 @@ public class MyFileSystem : MonoBehaviour
                     }
 
                     txtSelectedNode.text = $"Selected Node: {dn.FullName} Size Is: {dn.Size}";
-                    dn.IsSelected = true;
 
+
+                    dn.IsSelected = true;
+                    infoPanel.fillPanel(dn);
                     dn.ProcessNode();
 
                     if (currentSelectedNode == null)
