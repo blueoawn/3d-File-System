@@ -81,9 +81,20 @@ public class DataNode : MonoBehaviour
 
                 float radius = 4;
                 float forwardSpeed = -1f;
+                var driveGameObj = (GameObject)Resources.Load("Prefabs/Drive", typeof(GameObject));
+                //New line of code trying to create the Folder prefab game obj
+                var FolderGameObj= (GameObject)Resources.Load("Prefabs/Folder", typeof(GameObject));
+                //Transform myBrick = Instantiate(driveGameObj)
 
+                if (driveGameObj == null) {
+                    Debug.Log("HELLO WORLD");
+                }
+                else
+                {
+                    Debug.Log("FUCK YEAH");
+                }
 
-                foreach(var fi in diTop.EnumerateFiles())
+                foreach (var fi in diTop.EnumerateFiles())
                 {
                     try
                     {
@@ -100,12 +111,17 @@ public class DataNode : MonoBehaviour
                         float x = Mathf.Cos(phi) * r;
                         float z = Mathf.Sin(phi) * r;
 
+                        
+                        
+
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+
                         gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
                         gObj.transform.localScale *= 0.1f;
 
-                        gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
-                        gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
+                        //gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
+                       // gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
 
                         gObj.transform.SetParent(transform);
                         gObj.name = fi.FullName;
@@ -152,7 +168,12 @@ public class DataNode : MonoBehaviour
                         float x = Mathf.Cos(phi) * r;
                         float z = Mathf.Sin(phi) * r;
 
-                        var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
+
+               
+
+                        var gObj = (GameObject) Instantiate(FolderGameObj, new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ), Quaternion.identity);
+
                         gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
                         gObj.transform.SetParent(transform);
                         gObj.transform.LookAt(transform);
@@ -166,8 +187,9 @@ public class DataNode : MonoBehaviour
                         //float normalizedScale = ((diScale - 0) / (Size - 0));
                         gObj.transform.localScale *= diScale; //normalizedScale * Time.deltaTime;
 
-                        gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
-                        gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255,0,0));
+
+                       // gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
+                        //gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255,0,0));
 
                         gObj.name = di.FullName;
 
