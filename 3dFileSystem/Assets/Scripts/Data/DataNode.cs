@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ public class DataNode : MonoBehaviour
     GameObject cGObj;
     public int lengthOfLineRenderer = 2;
 
-    Transform parentNode;
+    // Transform parentNode;
 
     public void CollapseNode()
     {
@@ -44,8 +45,6 @@ public class DataNode : MonoBehaviour
             }
         }
     }
-
-
 
     public void ProcessNode()
     {
@@ -63,69 +62,82 @@ public class DataNode : MonoBehaviour
                 int fileNum = diTop.GetFiles().Length;
 
                 float rnd = 1;
-                float rndFiles = 1;
+                // float rndFiles = 1;
 
                 bool randomize = true;
 
                 if (randomize)
                 {
                     rnd = UnityEngine.Random.value * samples;
-                    rndFiles = UnityEngine.Random.value * fileNum;
+                    // rndFiles = UnityEngine.Random.value * fileNum;
                 }
 
                 float offset = 2.0f / samples;
                 float offsetFilres = 2.0f / fileNum;
 
                 float increment = Mathf.PI * (3.0f - Mathf.Sqrt(5.0f));
-                int i = 0;
+                // int i = 0;
 
                 float radius = 4;
                 float forwardSpeed = -1f;
-                var driveGameObj = (GameObject)Resources.Load("Prefabs/Drive", typeof(GameObject));
-                //New line of code trying to create the Folder prefab game obj
-                var FolderGameObj= (GameObject)Resources.Load("Prefabs/Folder", typeof(GameObject));
-                //Transform myBrick = Instantiate(driveGameObj)
 
-                if (driveGameObj == null) {
-                    Debug.Log("HELLO WORLD");
-                }
-                else
-                {
-                    Debug.Log("FUCK YEAH");
-                }
+                float xPos = 0f;
+                float yPos = 0f;
+                float zPos = 0f;
+
+                Transform prevTransform = transform;
+                System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+                TimeSpan ts;
+                stopWatch.Start();
+
+                // var driveGameObj = (GameObject)Resources.Load("Prefabs/Drive", typeof(GameObject));
+                //New line of code trying to create the Folder prefab game obj
+                // var FolderGameObj= (GameObject)Resources.Load("Prefabs/Folder", typeof(GameObject));
+                //Transform myBrick = Instantiate(driveGameObj)
+                // var driveGameObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                // var folderGameObj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+
+                // if (driveGameObj == null) {
+                //     Debug.Log("HELLO WORLD");
+                // }
+                // else
+                // {
+                //     Debug.Log("FUCK YEAH");
+                // }
 
                 foreach (var fi in diTop.EnumerateFiles())
                 {
                     try
                     {
-                         
-                        float transformPositionX = transform.localPosition.x + Mathf.Cos(Time.time) * radius;
-                        float transformPositionY = transform.localPosition.y + Mathf.Sin(Time.time) * radius;
-                        float transformPositionZ = transform.localPosition.z + forwardSpeed * Time.time;
+                        Thread.Sleep(1);
+                        // float transformPositionX = transform.localPosition.x + Mathf.Cos(Time.time) * radius;
+                        // float transformPositionY = transform.localPosition.y + Mathf.Sin(Time.time) * radius;
+                        // float transformPositionZ = transform.localPosition.z + forwardSpeed * Time.time;
+                        ts = stopWatch.Elapsed;
 
-                        float y = ((i * offsetFilres) - 1) + (offsetFilres / 2);
-                        float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
+                        xPos = Mathf.Cos(Time.time + ts.Milliseconds) * radius;
+                        yPos = Mathf.Sin(Time.time + ts.Milliseconds) * radius;
+                        zPos = forwardSpeed * (Time.time + ts.Milliseconds);
 
-                        float phi = ((i + rnd) % fileNum) * increment;
+                        // float y = ((i * offsetFilres) - 1) + (offsetFilres / 2);
+                        // float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
 
-                        float x = Mathf.Cos(phi) * r;
-                        float z = Mathf.Sin(phi) * r;
+                        // float phi = ((i + rnd) % fileNum) * increment;
 
-                        
-                        
+                        // float x = Mathf.Cos(phi) * r;
+                        // float z = Mathf.Sin(phi) * r;
 
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
-
-                        gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
+                        gObj.transform.position = new Vector3(xPos, yPos, zPos);
                         gObj.transform.localScale *= 0.1f;
 
                         //gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
-                       // gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
+                        //gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
 
-                        gObj.transform.SetParent(transform);
+                        // gObj.transform.SetParent(prevTransform);
                         gObj.name = fi.FullName;
-                        gObj.transform.LookAt(transform);
+                        gObj.transform.LookAt(prevTransform);
 
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
@@ -134,64 +146,72 @@ public class DataNode : MonoBehaviour
                         dn.FullName = fi.FullName;
                         dn.IsFolder = false;
 
-                        c1 = transform.GetComponent<Renderer>().material.color;
-                        c2 = new Color(x, y, z);
-                        p1 = transform;
+                        c1 = prevTransform.GetComponent<Renderer>().material.color;
+                        c2 = new Color(xPos, yPos, zPos);
+                        p1 = prevTransform;
                         p2 = gObj.transform;
-                        cGObj = gObj;
-                        DrawConnection(p1.position, p2.position, cGObj);
+                        // cGObj = gObj;
+                        DrawConnection(p1.position, p2.position, gObj);
 
+                        prevTransform = gObj.transform;
 
                         //Debug.Log($"{ fi.FullName}\t\t{fi.Parent}");
+
                     }
                     catch (UnauthorizedAccessException unAuthTop)
                     {
                         Debug.LogWarning($"{unAuthTop.Message}");
                     }
-                    i++;
+                    // i++;
                 }
 
-                i = 0;
+                // i = 0;
                 foreach (var di in diTop.EnumerateDirectories("*"))
                 {
                     try
                     {
-                        float transformPositionX = transform.localPosition.x + Mathf.Cos(Time.time) * radius;
-                        float transformPositionY = transform.localPosition.y + Mathf.Sin(Time.time) * radius;
-                        float transformPositionZ = transform.localPosition.z + forwardSpeed * Time.time;
+                        Thread.Sleep(1);
+                        // float transformPositionX = transform.localPosition.x + Mathf.Cos(Time.time) * radius;
+                        // float transformPositionY = transform.localPosition.y + Mathf.Sin(Time.time) * radius;
+                        // float transformPositionZ = transform.localPosition.z + forwardSpeed * Time.time;
 
-                        float y = ((i * offset) - 1) + (offset / 2);
-                        float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
+                        ts = stopWatch.Elapsed;
 
-                        float phi = ((i + rnd) % samples) * increment;
+                        Debug.Log(ts.Milliseconds);
 
-                        float x = Mathf.Cos(phi) * r;
-                        float z = Mathf.Sin(phi) * r;
+                        xPos = Mathf.Cos(Time.time + ts.Milliseconds) * radius;
+                        yPos = Mathf.Sin(Time.time + ts.Milliseconds) * radius;
+                        zPos = forwardSpeed * (Time.time + ts.Milliseconds);
 
+                        // float y = ((i * offset) - 1) + (offset / 2);
+                        // float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
 
+                        // float phi = ((i + rnd) % samples) * increment;
 
+                        // float x = Mathf.Cos(phi) * r;
+                        // float z = Mathf.Sin(phi) * r;
                
+                        // var gObj = (GameObject) Instantiate(GameObject.CreatePrimitive(PrimitiveType.Capsule), new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ), Quaternion.identity);
+                        var gObj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
 
-                        var gObj = (GameObject) Instantiate(FolderGameObj, new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ), Quaternion.identity);
+                        gObj.transform.position = new Vector3(xPos, yPos, zPos);
+                        
+                        // parentNode = transform;
 
-                        gObj.transform.position = new Vector3(x + transformPositionX, y + transformPositionY, z + transformPositionZ);
-                        gObj.transform.SetParent(transform);
-                        gObj.transform.LookAt(transform);
-                        gObj.transform.Translate(Vector3.forward * -(samples%2), Space.Self);
-                        parentNode = transform;
-
-                        float diScale = 0.25f;
+                        // float diScale = 0.25f;
                         //foreach (var f in di.GetFiles())
                         //    diScale += f.Length;
 
                         //float normalizedScale = ((diScale - 0) / (Size - 0));
-                        gObj.transform.localScale *= diScale; //normalizedScale * Time.deltaTime;
+                        gObj.transform.localScale *= 0.25f; //normalizedScale * Time.deltaTime;
 
-
-                       // gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
+                        //gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
                         //gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255,0,0));
 
+                        // gObj.transform.SetParent(prevTransform);
                         gObj.name = di.FullName;
+                        gObj.transform.LookAt(prevTransform);
+                        gObj.transform.Translate(Vector3.forward * -(samples%2), Space.Self);
 
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
@@ -201,9 +221,12 @@ public class DataNode : MonoBehaviour
                         dn.IsFolder = true;
 
                         c1 = transform.GetComponent<Renderer>().material.color;
-                        c2 = new Color(x, y, z);
-                        DrawConnection(transform.position, gObj.transform.position, gObj);
-
+                        c2 = new Color(xPos, yPos, zPos);
+                        p1 = prevTransform;
+                        p2 = gObj.transform;
+                        DrawConnection(p1.position, p2.transform.position, gObj);
+                        
+                        prevTransform = gObj.transform;
 
                         Debug.Log($"{ di.FullName}\t\t{di.Parent}");
 
@@ -212,8 +235,10 @@ public class DataNode : MonoBehaviour
                     {
                         Debug.LogWarning($"{unAuthDir.Message}");
                     }
-                    i++;
+                    // i++;
                 }
+
+                stopWatch.Stop();
             }
             catch (DirectoryNotFoundException dirNotFound)
             {
@@ -230,66 +255,66 @@ public class DataNode : MonoBehaviour
         }
     }
 
-    int ProcessFiles(DirectoryInfo diTop, int i)
-    {
-        int samples = diTop.GetDirectories("*").Length;
-        float rnd = 1;
-        bool randomize = true;
+    // int ProcessFiles(DirectoryInfo diTop, int i)
+    // {
+    //     int samples = diTop.GetDirectories("*").Length;
+    //     float rnd = 1;
+    //     bool randomize = true;
 
-        if (randomize)
-            rnd = UnityEngine.Random.value * samples;
+    //     if (randomize)
+    //         rnd = UnityEngine.Random.value * samples;
 
-        float offset = 2.0f / samples;
-        float increment = Mathf.PI * (3.0f - Mathf.Sqrt(5.0f));
+    //     float offset = 2.0f / samples;
+    //     float increment = Mathf.PI * (3.0f - Mathf.Sqrt(5.0f));
 
-        foreach (var fi in diTop.EnumerateFiles())
-        {
-            try
-            {
-                float y = ((i * offset) - 1) + (offset / 2);
-                float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
+    //     foreach (var fi in diTop.EnumerateFiles())
+    //     {
+    //         try
+    //         {
+    //             float y = ((i * offset) - 1) + (offset / 2);
+    //             float r = Mathf.Sqrt(1 - Mathf.Pow(y, 2));
 
-                float phi = ((i + rnd) % samples) * increment;
+    //             float phi = ((i + rnd) % samples) * increment;
 
-                float x = Mathf.Cos(phi) * r;
-                float z = Mathf.Sin(phi) * r;
+    //             float x = Mathf.Cos(phi) * r;
+    //             float z = Mathf.Sin(phi) * r;
 
-                var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                gObj.transform.position = new Vector3(x + transform.position.x, y + transform.position.y, z + transform.position.z);
-                gObj.transform.localScale *= 0.1f;
+    //             var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+    //             gObj.transform.position = new Vector3(x + transform.position.x, y + transform.position.y, z + transform.position.z);
+    //             gObj.transform.localScale *= 0.1f;
 
-                gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
-                gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
+    //             gObj.transform.GetComponent<Renderer>().material.color = new Color(x, y, z);
+    //             gObj.transform.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(255, 0, 0));
 
-                gObj.transform.SetParent(transform);
-                gObj.name = fi.FullName;
-                gObj.transform.LookAt(transform);
+    //             gObj.transform.SetParent(transform);
+    //             gObj.name = fi.FullName;
+    //             gObj.transform.LookAt(transform);
 
-                gObj.AddComponent<DataNode>();
-                DataNode dn = gObj.GetComponent<DataNode>();
-                dn.Name = fi.Name;
-                dn.Size = -1;
-                dn.FullName = fi.FullName;
-                dn.IsFolder = false;
+    //             gObj.AddComponent<DataNode>();
+    //             DataNode dn = gObj.GetComponent<DataNode>();
+    //             dn.Name = fi.Name;
+    //             dn.Size = -1;
+    //             dn.FullName = fi.FullName;
+    //             dn.IsFolder = false;
 
-                c1 = transform.GetComponent<Renderer>().material.color;
-                c2 = new Color(x, y, z);
-                p1 = transform;
-                p2 = gObj.transform;
-                cGObj = gObj;
-                DrawConnection(p1.position, p2.position, cGObj);
+    //             c1 = transform.GetComponent<Renderer>().material.color;
+    //             c2 = new Color(x, y, z);
+    //             p1 = transform;
+    //             p2 = gObj.transform;
+    //             cGObj = gObj;
+    //             DrawConnection(p1.position, p2.position, cGObj);
 
 
-                //Debug.Log($"{ fi.FullName}\t\t{fi.Parent}");
-            }
-            catch (UnauthorizedAccessException unAuthTop)
-            {
-                Debug.LogWarning($"{unAuthTop.Message}");
-            }
-            i++;
-        }
-        return i;
-    }
+    //             //Debug.Log($"{ fi.FullName}\t\t{fi.Parent}");
+    //         }
+    //         catch (UnauthorizedAccessException unAuthTop)
+    //         {
+    //             Debug.LogWarning($"{unAuthTop.Message}");
+    //         }
+    //         i++;
+    //     }
+    //     return i;
+    // }
 
     void DrawConnection(Vector3 p1, Vector3 p2, GameObject go)
     {
@@ -319,22 +344,22 @@ public class DataNode : MonoBehaviour
         //    transform.Rotate(Vector3.up, 25 * Time.deltaTime);
         //}
 
-        if (Move)
-        {
-            //// Distance moved equals elapsed time times speed..
-            //float distCovered = (Time.time - startTime) * speed;
+        // if (Move)
+        // {
+        //     //// Distance moved equals elapsed time times speed..
+        //     //float distCovered = (Time.time - startTime) * speed;
 
-            //// Fraction of journey completed equals current distance divided by total distance.
-            //float fractionOfJourney = distCovered / journeyLength;
+        //     //// Fraction of journey completed equals current distance divided by total distance.
+        //     //float fractionOfJourney = distCovered / journeyLength;
 
-            // Set our position as a fraction of the distance between the markers.
-            transform.localPosition = Vector3.Lerp(transform.localPosition, NewPosition, Time.deltaTime); ;
-            GetComponent<LineRenderer>().SetPosition(1, transform.position);
-            if (transform.localPosition.Equals(NewPosition))
-            {
-                Move = false;
-            }
-        }
+        //     // Set our position as a fraction of the distance between the markers.
+        //     transform.localPosition = Vector3.Lerp(transform.localPosition, NewPosition, Time.deltaTime); ;
+        //     GetComponent<LineRenderer>().SetPosition(1, transform.position);
+        //     if (transform.localPosition.Equals(NewPosition))
+        //     {
+        //         Move = false;
+        //     }
+        // }
     }
 
 }
