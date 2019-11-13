@@ -9,6 +9,8 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI locationText;
     public TextMeshProUGUI sizeText;
     public TextMeshProUGUI typeText;
+    public TextMeshProUGUI dateCreatedText;
+    public TextMeshProUGUI dateModifiedText;
 
     //public Image icon;
 
@@ -26,12 +28,9 @@ public class InfoPanel : MonoBehaviour
 
     public void fillPanel(DataNode dn)
     {
-        nameText.SetText(dn.Name);
-        locationText.SetText("Location: " + dn.FullName);
-        sizeText.SetText("Size: " + string.Format("{0:#,##0}", dn.Size) + " bytes");
-        
         if(dn.IsFolder)
         {
+            dn.Size = dn.GetFolderSize(dn.FullName);
             typeText.SetText("Type: Folder");
         }
         else if(dn.IsDrive)
@@ -40,7 +39,12 @@ public class InfoPanel : MonoBehaviour
         }
         else
         {
-            typeText.SetText("Type: File");
+            typeText.SetText($"Type: File ({dn.Extension})");
         }
+        nameText.SetText(dn.Name);
+        locationText.SetText("Location: " + dn.FullName);
+        sizeText.SetText("Size: " + string.Format("{0:#,##0}", dn.Size) + " bytes");
+        dateCreatedText.SetText($"Created: {dn.DateCreated}");
+        dateModifiedText.SetText($"Modified: {dn.DateModified}");
     }
 }

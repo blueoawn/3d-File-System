@@ -6,11 +6,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using System.Linq;
 
 public class DataNode : MonoBehaviour
 {
     public string Name;
     public string FullName;
+    public string Extension;
+    public string DateCreated;
+    public string DateModified;
     public long Size;
     public bool IsFolder = false;
     public bool IsDrive = false;
@@ -142,8 +146,11 @@ public class DataNode : MonoBehaviour
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
                         dn.Name = fi.Name;
-                        dn.Size = -1;
+                        dn.Size = fi.Length;
                         dn.FullName = fi.FullName;
+                        dn.Extension = fi.Extension;
+                        dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsFolder = false;
 
                         c1 = prevTransform.GetComponent<Renderer>().material.color;
@@ -216,9 +223,12 @@ public class DataNode : MonoBehaviour
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
                         dn.Name = di.Name;
+                        //dn.Size = GetDirectorySize(di.FullName);
                         dn.Size = -1;
                         dn.FullName = di.FullName;
                         dn.IsFolder = true;
+                        dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
 
                         c1 = transform.GetComponent<Renderer>().material.color;
                         c2 = new Color(xPos, yPos, zPos);
@@ -336,7 +346,11 @@ public class DataNode : MonoBehaviour
         lineRenderer.SetPosition(0, p1);
         lineRenderer.SetPosition(1, p2);
     }
-
+    public long GetFolderSize(string folderPath)
+    {
+        DirectoryInfo di = new DirectoryInfo(folderPath);
+        return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+    }
     void Update()
     {
         //if (IsSelected)
