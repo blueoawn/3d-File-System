@@ -13,8 +13,8 @@ public class CameraControl : MonoBehaviour
     public float sensX = 100.0f;
     public float sensY = 100.0f;
 
-    float rotationY = 0.0f;
-    float rotationX = 0.0f;
+    // float rotationY = 0.0f;
+    // float rotationX = 0.0f;
 
     // Start is called before the first frame update
     void Start()

@@ -15,9 +15,9 @@ public class BackButton : MonoBehaviour
 
 
 
-    public void SetCurrentSelectedNode()
-    {
-        DataNode currentSelectedNode = MyFileSystem.Instance.currentSelectedNode;
-        currentSelectedNode.CollapseNode();
-    }
+    // public void SetCurrentSelectedNode()
+    // {
+    //     DataNode currentSelectedNode = MyFileSystem.Instance.currentSelectedNode;
+    //     currentSelectedNode.CollapseNode();
+    // }
 }

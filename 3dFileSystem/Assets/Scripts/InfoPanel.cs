@@ -28,12 +28,12 @@ public class InfoPanel : MonoBehaviour
 
     public void fillPanel(DataNode dn)
     {
-        if(dn.IsFolder)
+        if(dn.IsDir)
         {
-            dn.Size = dn.GetFolderSize(dn.FullName);
+            dn.Size = dn.GetFolderSize(dn.Path);
             typeText.SetText("Type: Folder");
         }
-        else if(dn.IsDrive)
+        else if(dn.IsDir)
         {
             typeText.SetText("Type: Drive");
         }
@@ -42,7 +42,7 @@ public class InfoPanel : MonoBehaviour
             typeText.SetText($"Type: File ({dn.Extension})");
         }
         nameText.SetText(dn.Name);
-        locationText.SetText("Location: " + dn.FullName);
+        locationText.SetText("Location: " + dn.Path);
         sizeText.SetText("Size: " + string.Format("{0:#,##0}", dn.Size) + " bytes");
         dateCreatedText.SetText($"Created: {dn.DateCreated}");
         dateModifiedText.SetText($"Modified: {dn.DateModified}");

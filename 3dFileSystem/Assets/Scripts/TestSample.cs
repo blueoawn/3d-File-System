@@ -9,7 +9,7 @@ public class TestSample : MonoBehaviour
 
     void Start()
     {
-        float r = 1.0f;
+        // float r = 1.0f;
         Vector3 center = transform.position;
         for (int i = 0; i < numObjects; i++)
         {

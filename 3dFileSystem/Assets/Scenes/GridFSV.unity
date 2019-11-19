@@ -589,9 +589,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f988de962efdc4dae17d2029a1be25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txtSelectedNode: {fileID: 260935399}
-  txtHoveredOverNode: {fileID: 501971325}
-  currentSelectedNode: {fileID: 0}
+  txtSelectedDataNode: {fileID: 260935399}
+  txtHoveredOverDataNode: {fileID: 501971325}
+  currentSelectedDataNode: {fileID: 0}
 --- !u!1 &1166634113
 GameObject:
   m_ObjectHideFlags: 0
