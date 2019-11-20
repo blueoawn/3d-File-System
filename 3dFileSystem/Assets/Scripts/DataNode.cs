@@ -48,6 +48,9 @@ public class DataNode : MonoBehaviour
                         DataNode dn = gObj.GetComponent<DataNode>();
                         dn.Size = fileInfo.Length;
                         dn.Path = fi.FullName;
+                        dn.Name = fi.Name;
+                        dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = true;
                         dn.zPos = (zPos + 1f)*2f;
                         i++;
@@ -71,6 +74,9 @@ public class DataNode : MonoBehaviour
                         DataNode dn = gObj.GetComponent<DataNode>();
                         dn.Size = -1;
                         dn.Path = di.FullName;
+                        dn.Name = di.Name;
+                        dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = true;
                         dn.zPos = (zPos + 1f)*2f;
                         i++;

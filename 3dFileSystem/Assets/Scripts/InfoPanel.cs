@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class InfoPanel : MonoBehaviour
@@ -12,7 +13,10 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI dateCreatedText;
     public TextMeshProUGUI dateModifiedText;
 
-    //public Image icon;
+    public Image icon;
+    public Sprite fileIcon;
+    public Sprite folderIcon;
+    public Sprite driveIcon;
 
     // Start is called before the first frame update
     void Start()
@@ -32,14 +36,17 @@ public class InfoPanel : MonoBehaviour
         {
             dn.Size = dn.GetFolderSize(dn.Path);
             typeText.SetText("Type: Folder");
+            icon.sprite = folderIcon;
         }
         else if(dn.IsDir)
         {
             typeText.SetText("Type: Drive");
+            icon.sprite = driveIcon;
         }
         else
         {
             typeText.SetText($"Type: File ({dn.Extension})");
+            icon.sprite = fileIcon;
         }
         nameText.SetText(dn.Name);
         locationText.SetText("Location: " + dn.Path);

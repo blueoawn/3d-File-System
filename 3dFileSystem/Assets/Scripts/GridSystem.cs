@@ -10,7 +10,7 @@ public class GridSystem : MonoBehaviour
     public Text txtSelectedDataNode;
     public Text txtHoveredOverDataNode;
 
-    // public InfoPanel infoPanel;
+    public InfoPanel infoPanel;
 
     public DataNode currentSelectedDataNode;
 
@@ -20,7 +20,7 @@ public class GridSystem : MonoBehaviour
         txtSelectedDataNode.text = "";
         txtHoveredOverDataNode.text = "";
 
-        //infoPanel = GameObject.Find("Info Panel").GetComponent<InfoPanel>();
+        infoPanel = GameObject.Find("Info Panel Gray").GetComponent<InfoPanel>();
 
         int i = 0;
         int colLength = 6;
@@ -38,6 +38,7 @@ public class GridSystem : MonoBehaviour
             DataNode dn = gObj.GetComponent<DataNode>();
             dn.Size = drive.TotalSize;
             dn.Path = drive.RootDirectory.FullName;
+            dn.Name = drive.Name;
             dn.IsDir = true;
             dn.zPos = 0.0f;
             i++;
@@ -90,7 +91,7 @@ public class GridSystem : MonoBehaviour
 
                     txtSelectedDataNode.text = $"Selected DataNode: {dn.Path} Size Is: {dn.Size}";
                     dn.IsSelected = true;
-                    //infoPanel.fillPanel(dn);
+                    infoPanel.fillPanel(dn);
                     dn.ProcessDataNode();
 
                     if (currentSelectedDataNode == null)
