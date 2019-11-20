@@ -41,7 +41,7 @@ public class DataNode : MonoBehaviour
                     {
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        gObj.transform.position = new Vector3(transform.position.x + (2.0f*(i%colLength)), transform.position.y + (2.0f*(i/colLength)), (zPos + 1f)*2f);
+                        gObj.transform.position = new Vector3(transform.position.x + (2.0f*(i%colLength)), transform.position.y + (2.0f*(i/colLength)), (zPos + 1f)+10f);
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = fi.Name;
                         gObj.AddComponent<DataNode>();
@@ -51,8 +51,8 @@ public class DataNode : MonoBehaviour
                         dn.Name = fi.Name;
                         dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
-                        dn.IsDir = true;
-                        dn.zPos = (zPos + 1f)*2f;
+                        dn.IsDir = false;
+                        dn.zPos = (zPos + 1f)+10f;
                         i++;
                     }
                     catch (UnauthorizedAccessException unAuthTop)
@@ -67,7 +67,7 @@ public class DataNode : MonoBehaviour
                     {
                         System.IO.DirectoryInfo dirinfo = new DirectoryInfo(di.FullName);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                        gObj.transform.position = new Vector3(2.0f*(i%colLength), 2.0f*(i/colLength), (zPos + 1f)*2f);
+                        gObj.transform.position = new Vector3(2.0f*(i%colLength), 2.0f*(i/colLength), (zPos + 1f)+10f);
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = di.Name;
                         gObj.AddComponent<DataNode>();
@@ -78,7 +78,7 @@ public class DataNode : MonoBehaviour
                         dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = true;
-                        dn.zPos = (zPos + 1f)*2f;
+                        dn.zPos = (zPos + 1f)+10f;
                         i++;
                     }
                     catch (UnauthorizedAccessException unAuthDir)

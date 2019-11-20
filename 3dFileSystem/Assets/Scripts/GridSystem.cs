@@ -11,8 +11,33 @@ public class GridSystem : MonoBehaviour
     public Text txtHoveredOverDataNode;
 
     public InfoPanel infoPanel;
-
+    Camera mainCam;
     public DataNode currentSelectedDataNode;
+    public float smoothSpeed = 0.0125f;
+     // public InfoPanel infoPanel;
+ 
+    private static GridSystem _instance;
+    
+    //we are creating a static object so we can preserve the data going forward
+    public static GridSystem Instance
+    {
+            get
+            {
+                if (_instance == null)
+                {
+                    GameObject go = new GameObject("GridSystem");
+                    go.AddComponent<GridSystem>();
+                }
+                return _instance;
+            }
+    }
+ 
+ 
+    //awake is called before start and before the first frame update
+   void Awake()
+   {
+       _instance = this;
+   }
 
     // Start is called before the first frame update
     void Start()
@@ -103,6 +128,17 @@ public class GridSystem : MonoBehaviour
                         currentSelectedDataNode.IsSelected = false;
                         currentSelectedDataNode = dn;
                     }
+                    //do camera movement functionality
+                    if(currentSelectedDataNode.IsDir){
+                       Vector3 dataNodePosition = currentSelectedDataNode.transform.position;
+                       Vector3 offset = dataNodePosition - currentSelectedDataNode.transform.forward;
+                       //whatever is selected, we will go behind it
+                       Debug.Log("desiredPosition" + offset);
+                       Vector3 smoothedPosition = Vector3.Lerp(dataNodePosition,offset,smoothSpeed);
+                       mainCam = Camera.main;
+                       mainCam.transform.position = smoothedPosition;
+                   }
+
 
                 }
             }
