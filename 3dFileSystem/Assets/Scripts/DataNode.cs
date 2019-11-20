@@ -14,7 +14,7 @@ public class DataNode : MonoBehaviour
     public string Extension;
     public string DateCreated;
     public string DateModified;
-
+    public bool HasChild = false;
     public bool IsSelected = false;
     public bool IsExpanded = false;
 
@@ -53,6 +53,7 @@ public class DataNode : MonoBehaviour
                         dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = false;
                         dn.zPos = (zPos + 1f)+10f;
+                        HasChild = true;
                         i++;
                     }
                     catch (UnauthorizedAccessException unAuthTop)
@@ -79,6 +80,7 @@ public class DataNode : MonoBehaviour
                         dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = true;
                         dn.zPos = (zPos + 1f)+10f;
+                        HasChild = true;
                         i++;
                     }
                     catch (UnauthorizedAccessException unAuthDir)
