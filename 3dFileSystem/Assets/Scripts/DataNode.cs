@@ -74,7 +74,7 @@ public class DataNode : MonoBehaviour
                         gObj.name = di.Name;
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
-                        dn.Size = GetFolderSize(di.FullName);
+                        //dn.Size = GetFolderSize(di.FullName);
                         dn.Path = di.FullName;
                         dn.Name = di.Name;
                         dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
@@ -108,6 +108,7 @@ public class DataNode : MonoBehaviour
     public long GetFolderSize(string folderPath)
     {
        DirectoryInfo di = new DirectoryInfo(folderPath);
-       return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+       return 0l;
+       //return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
     }
 }
