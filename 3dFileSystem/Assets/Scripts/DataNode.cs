@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DataNode : MonoBehaviour
 {
@@ -73,7 +74,7 @@ public class DataNode : MonoBehaviour
                         gObj.name = di.Name;
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
-                        dn.Size = -1;
+                        dn.Size = GetFolderSize(di.FullName);
                         dn.Path = di.FullName;
                         dn.Name = di.Name;
                         dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
@@ -107,7 +108,6 @@ public class DataNode : MonoBehaviour
     public long GetFolderSize(string folderPath)
     {
        DirectoryInfo di = new DirectoryInfo(folderPath);
-       return 0L;
-       //return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+       return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
     }
 }
