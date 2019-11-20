@@ -129,7 +129,11 @@ public class GridSystem : MonoBehaviour
                         currentSelectedDataNode = dn;
                     }
                     //do camera movement functionality
-                    if(currentSelectedDataNode.IsDir){
+
+                    //if my selected node is a directory and it has children
+                    
+                    Debug.Log("hasChild" + currentSelectedDataNode.HasChild);
+                    if(currentSelectedDataNode.IsDir && currentSelectedDataNode.HasChild){
                        Vector3 dataNodePosition = currentSelectedDataNode.transform.position;
                        Vector3 offset = dataNodePosition - currentSelectedDataNode.transform.forward;
                        //whatever is selected, we will go behind it
