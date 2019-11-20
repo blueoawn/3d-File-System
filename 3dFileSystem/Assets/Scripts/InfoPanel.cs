@@ -17,7 +17,7 @@ public class InfoPanel : MonoBehaviour
     public Sprite fileIcon;
     public Sprite folderIcon;
     public Sprite driveIcon;
-
+        
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +45,14 @@ public class InfoPanel : MonoBehaviour
         }
         else
         {
-            typeText.SetText($"Type: File ({dn.Extension})");
+            if(string.IsNullOrEmpty(dn.Extension))
+            {
+                typeText.SetText($"Type: File");
+            }
+            else
+            {
+                typeText.SetText($"Type: File ({dn.Extension})");
+            }
             icon.sprite = fileIcon;
         }
         nameText.SetText(dn.Name);
