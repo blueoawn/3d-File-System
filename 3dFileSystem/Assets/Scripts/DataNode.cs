@@ -18,6 +18,33 @@ public class DataNode : MonoBehaviour
     public bool HasChild = false;
     public bool IsSelected = false;
     public bool IsExpanded = false;
+    public Transform parentNode;
+    DataNode parentDataNode;
+    Camera mainCam;
+
+
+    public void CollapseNode(){
+       //transform.tranform gives me the child nodes to destroy and collapse my nodes
+       //if we are in the topmost node don't collapse anything       
+       if (transform.transform != null)
+       {
+           foreach (Transform t in transform.transform)
+           {
+               Destroy(t.gameObject);
+           }
+       }
+       float smoothSpeed = 0.0125f;
+       if(IsDir && HasChild){
+            Vector3 initPosition = transform.position - new Vector3(0f,0f,10f);
+            Vector3 desiredPosition = transform.position;
+            Vector3 smoothedPosition = Vector3.Lerp(initPosition,desiredPosition,smoothSpeed);
+            mainCam = Camera.main;
+            mainCam.transform.position = smoothedPosition;
+       }
+    }
+
+
+
 
     public void ProcessDataNode()
     {
@@ -25,6 +52,8 @@ public class DataNode : MonoBehaviour
         {
             DirectoryInfo diTop = new DirectoryInfo(Path);
 
+
+            //parentDataNode = 
             try
             {
                 // float transformPositionX = 0f;
@@ -46,6 +75,7 @@ public class DataNode : MonoBehaviour
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = fi.Name;
                         gObj.AddComponent<DataNode>();
+                        gObj.transform.SetParent(transform);
                         DataNode dn = gObj.GetComponent<DataNode>();
                         dn.Size = fileInfo.Length;
                         dn.Path = fi.FullName;
@@ -54,6 +84,7 @@ public class DataNode : MonoBehaviour
                         dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = false;
                         dn.zPos = (zPos + 1f)+10f;
+                        dn.parentNode = transform;
                         HasChild = true;
                         i++;
                     }
@@ -72,6 +103,7 @@ public class DataNode : MonoBehaviour
                         gObj.transform.position = new Vector3(2.0f*(i%colLength), 2.0f*(i/colLength), (zPos + 1f)+10f);
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = di.Name;
+                        gObj.transform.SetParent(transform);
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
                         //dn.Size = GetFolderSize(di.FullName);
@@ -81,6 +113,7 @@ public class DataNode : MonoBehaviour
                         dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = true;
                         dn.zPos = (zPos + 1f)+10f;
+                        dn.parentNode = transform;
                         HasChild = true;
                         i++;
                     }

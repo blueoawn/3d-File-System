@@ -132,14 +132,13 @@ public class GridSystem : MonoBehaviour
 
                     //if my selected node is a directory and it has children
                     
+                    _instance.currentSelectedDataNode = currentSelectedDataNode;
                     Debug.Log("hasChild" + currentSelectedDataNode.HasChild);
                     if(currentSelectedDataNode.IsDir && currentSelectedDataNode.HasChild){
+                       mainCam = Camera.main;
                        Vector3 dataNodePosition = currentSelectedDataNode.transform.position;
                        Vector3 offset = dataNodePosition - currentSelectedDataNode.transform.forward;
-                       //whatever is selected, we will go behind it
-                       Debug.Log("desiredPosition" + offset);
-                       Vector3 smoothedPosition = Vector3.Lerp(dataNodePosition,offset,smoothSpeed);
-                       mainCam = Camera.main;
+                       Vector3 smoothedPosition = Vector3.Lerp(dataNodePosition,offset,smoothSpeed);                      
                        mainCam.transform.position = smoothedPosition;
                    }
 
