@@ -13,11 +13,13 @@ public class BackButton : MonoBehaviour
     public Text txtSelectedNode;
     public Text txtHoveredOverNode;
 
+    public void SetCurrentSelectedNode(){
+       DataNode node = GridSystem.Instance.currentSelectedDataNode;
+       node.CollapseNode();
+        //if current Selected has a parent or it has been collapsed
+        if(node.IsDir && node.HasChild && node.parentNode){
+            GridSystem.Instance.currentSelectedDataNode = node.parentNode.GetComponent<DataNode>();
+        }
+    }
 
-
-    // public void SetCurrentSelectedNode()
-    // {
-    //     DataNode currentSelectedNode = MyFileSystem.Instance.currentSelectedNode;
-    //     currentSelectedNode.CollapseNode();
-    // }
 }
