@@ -141,7 +141,7 @@ public class DataNode : MonoBehaviour
     public long GetFolderSize(string folderPath)
     {
        DirectoryInfo di = new DirectoryInfo(folderPath);
-       return 0l;
+       return 0L;
        //return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
     }
 }
