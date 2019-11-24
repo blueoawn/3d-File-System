@@ -18,7 +18,7 @@ public class DataNode : MonoBehaviour
     public bool HasChild = false;
     public bool IsSelected = false;
     public bool IsExpanded = false;
-    public Vector3 initCameraPos;
+    public Vector3 initCameraPos; // Initial Camera position when open new folder
     public Transform parentNode;
     DataNode parentDataNode;
     Camera mainCam;

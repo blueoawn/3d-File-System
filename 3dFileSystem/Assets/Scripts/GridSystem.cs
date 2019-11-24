@@ -14,7 +14,7 @@ public class GridSystem : MonoBehaviour
     public InfoPanel infoPanel;
     // Camera mainCam = main.Camera;
     public DataNode currentSelectedDataNode;
-    public float smoothSpeed = 0.0125f;
+    // public float smoothSpeed = 0.0125f;
     GameObject textGameObject;
  
     private static GridSystem _instance;
