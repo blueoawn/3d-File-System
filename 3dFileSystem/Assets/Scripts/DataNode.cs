@@ -18,10 +18,10 @@ public class DataNode : MonoBehaviour
     public bool HasChild = false;
     public bool IsSelected = false;
     public bool IsExpanded = false;
+    public Vector3 initCameraPos;
     public Transform parentNode;
     DataNode parentDataNode;
     Camera mainCam;
-
 
     public void CollapseNode(){
        //transform.tranform gives me the child nodes to destroy and collapse my nodes
@@ -33,13 +33,15 @@ public class DataNode : MonoBehaviour
                Destroy(t.gameObject);
            }
        }
-       float smoothSpeed = 0.0125f;
+    //    float smoothSpeed = 0.0125f;
        if(IsDir && HasChild){
-            Vector3 initPosition = transform.position - new Vector3(0f,0f,10f);
-            Vector3 desiredPosition = transform.position;
-            Vector3 smoothedPosition = Vector3.Lerp(initPosition,desiredPosition,smoothSpeed);
+            // Vector3 initPosition = transform.position - new Vector3(0f,0f,10f);
+            // Vector3 desiredPosition = transform.position;
+            // Vector3 smoothedPosition = Vector3.Lerp(initPosition,desiredPosition,smoothSpeed);
+            // mainCam = Camera.main;
+            // mainCam.transform.position = smoothedPosition;
             mainCam = Camera.main;
-            mainCam.transform.position = smoothedPosition;
+            mainCam.transform.position = initCameraPos;
        }
     }
 
@@ -48,21 +50,12 @@ public class DataNode : MonoBehaviour
 
     public void ProcessDataNode()
     {
+        Vector3 cameraPos = Vector3.zero;
         if (IsDir)
         {
             DirectoryInfo diTop = new DirectoryInfo(Path);
-
-
-            //parentDataNode = 
             try
             {
-                // float transformPositionX = 0f;
-                // float transformPositionY = 0f;
-                // float transformPositionZ = 0f;
-
-                // float initXPositon = transform.position.x;
-                // float initYPositon = transform.position.y;
-                // float initZPosition = transform.position.z + 1f;
                 int i = 0;
                 int colLength = 6;
                 foreach (var fi in diTop.EnumerateFiles())
@@ -72,6 +65,10 @@ public class DataNode : MonoBehaviour
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
                         gObj.transform.position = new Vector3(transform.position.x + (2.0f*(i%colLength)), transform.position.y + (2.0f*(i/colLength)), (zPos + 1f)+10f);
+                        if(cameraPos == Vector3.zero)
+                        {
+                            cameraPos = gObj.transform.position - (Vector3.forward*10);
+                        }
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = fi.Name;
                         gObj.AddComponent<DataNode>();
@@ -84,6 +81,7 @@ public class DataNode : MonoBehaviour
                         dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = false;
                         dn.zPos = (zPos + 1f)+10f;
+                        dn.initCameraPos = cameraPos;
                         dn.parentNode = transform;
                         HasChild = true;
                         i++;
@@ -98,9 +96,12 @@ public class DataNode : MonoBehaviour
                 {
                     try
                     {
-                        System.IO.DirectoryInfo dirinfo = new DirectoryInfo(di.FullName);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                         gObj.transform.position = new Vector3(2.0f*(i%colLength), 2.0f*(i/colLength), (zPos + 1f)+10f);
+                        if(cameraPos == Vector3.zero)
+                        {
+                            cameraPos = gObj.transform.position - (Vector3.forward*10);
+                        }
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = di.Name;
                         gObj.transform.SetParent(transform);
@@ -113,6 +114,7 @@ public class DataNode : MonoBehaviour
                         dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = true;
                         dn.zPos = (zPos + 1f)+10f;
+                        dn.initCameraPos = cameraPos;
                         dn.parentNode = transform;
                         HasChild = true;
                         i++;
@@ -122,6 +124,8 @@ public class DataNode : MonoBehaviour
                         Debug.LogWarning($"{unAuthDir.Message}");
                     }
                 }
+                mainCam = Camera.main;
+                mainCam.transform.position = cameraPos;
             }
             catch (DirectoryNotFoundException dirNotFound)
             {

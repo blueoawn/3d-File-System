@@ -12,11 +12,10 @@ public class GridSystem : MonoBehaviour
     public Text txtHoveredOverDataNode;
 
     public InfoPanel infoPanel;
-    Camera mainCam;
+    // Camera mainCam = main.Camera;
     public DataNode currentSelectedDataNode;
     public float smoothSpeed = 0.0125f;
     GameObject textGameObject;
-     // public InfoPanel infoPanel;
  
     private static GridSystem _instance;
     
@@ -68,6 +67,7 @@ public class GridSystem : MonoBehaviour
             dn.Name = drive.Name;
             dn.IsDir = true;
             dn.zPos = 0.0f;
+            dn.initCameraPos = Camera.main.transform.position;
             i++;
         }
     }
@@ -153,17 +153,15 @@ public class GridSystem : MonoBehaviour
 
                     //if my selected node is a directory and it has children
                     
-                    _instance.currentSelectedDataNode = currentSelectedDataNode;
-                    Debug.Log("hasChild" + currentSelectedDataNode.HasChild);
-                    if(currentSelectedDataNode.IsDir && currentSelectedDataNode.HasChild){
-                       mainCam = Camera.main;
-                       Vector3 dataNodePosition = currentSelectedDataNode.transform.position;
-                       Vector3 offset = dataNodePosition - currentSelectedDataNode.transform.forward;
-                       Vector3 smoothedPosition = Vector3.Lerp(dataNodePosition,offset,smoothSpeed);                      
-                       mainCam.transform.position = smoothedPosition;
-                   }
-
-
+                    // _instance.currentSelectedDataNode = currentSelectedDataNode;
+                    // Debug.Log("hasChild" + currentSelectedDataNode.HasChild);
+                    // if(currentSelectedDataNode.IsDir && currentSelectedDataNode.HasChild){
+                    //     mainCam = Camera.main;
+                    //     Vector3 dataNodePosition = currentSelectedDataNode.transform.position;
+                    //     Vector3 offset = dataNodePosition - currentSelectedDataNode.transform.forward;
+                    //     Vector3 smoothedPosition = Vector3.Lerp(dataNodePosition,offset,smoothSpeed);
+                    //     mainCam.transform.position = smoothedPosition;
+                    // }
                 }
             }
         }
