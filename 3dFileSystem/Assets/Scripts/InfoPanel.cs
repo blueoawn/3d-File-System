@@ -35,30 +35,31 @@ public class InfoPanel : MonoBehaviour
         if(dn.IsDir)
         {
             dn.Size = dn.GetFolderSize(dn.Path);
-            typeText.SetText("Type: Folder");
+            typeText.SetText("Folder");
             icon.sprite = folderIcon;
         }
         else if(dn.IsDir)
         {
-            typeText.SetText("Type: Drive");
+            typeText.SetText("Drive");
             icon.sprite = driveIcon;
         }
         else
         {
             if(string.IsNullOrEmpty(dn.Extension))
             {
-                typeText.SetText($"Type: File");
+                typeText.SetText($"File");
             }
             else
             {
-                typeText.SetText($"Type: File ({dn.Extension})");
+                typeText.SetText($"File ({dn.Extension})");
             }
             icon.sprite = fileIcon;
         }
         nameText.SetText(dn.Name);
-        locationText.SetText("Location: " + dn.Path);
-        sizeText.SetText("Size: " + string.Format("{0:#,##0}", dn.Size) + " bytes");
-        dateCreatedText.SetText($"Created: {dn.DateCreated}");
-        dateModifiedText.SetText($"Modified: {dn.DateModified}");
+        nameText.fontStyle = FontStyles.Bold;
+        locationText.SetText(dn.Path);
+        sizeText.SetText(string.Format("{0:#,##0}", dn.Size) + " bytes");
+        dateCreatedText.SetText(dn.DateCreated);
+        dateModifiedText.SetText(dn.DateModified);
     }
 }
