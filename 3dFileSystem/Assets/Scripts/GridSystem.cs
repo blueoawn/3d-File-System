@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GridSystem : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GridSystem : MonoBehaviour
     Camera mainCam;
     public DataNode currentSelectedDataNode;
     public float smoothSpeed = 0.0125f;
+    GameObject textGameObject;
      // public InfoPanel infoPanel;
  
     private static GridSystem _instance;
@@ -85,12 +87,31 @@ public class GridSystem : MonoBehaviour
             {
                 // if there is a hit, we want to get the DataNode component to extract the information
                 DataNode dn = hitInfo.transform.GetComponent<DataNode>();
-                txtHoveredOverDataNode.text = $"{dn.Path}";
+
+                if(textGameObject == null){
+                    textGameObject = new GameObject("text");
+                }else{
+                    Destroy(textGameObject);
+                    textGameObject = new GameObject("text");
+                }
+                
+                textGameObject.transform.parent = dn.transform;
+                
+                TextMeshPro myText = textGameObject.AddComponent<TextMeshPro>();
+                myText.text =  $"{dn.Path}";
+                myText.fontSize = 4;
+                RectTransform rt = myText.GetComponent<RectTransform>();
+                //making all the margins zero and so that the text appears where we want it to
+                rt.position = dn.transform.position;
+                rt.anchorMax = Vector3.zero;
+                rt.anchorMin =  Vector3.zero;
+                rt.pivot =  Vector3.zero;
+                rt.sizeDelta = new Vector2 (5f, 1.5f);
+            } else{
+                if(textGameObject != null){
+                    Destroy(textGameObject);
+                }
             }
-        }
-        else
-        {
-            txtHoveredOverDataNode.text = $"";
         }
         #endregion
 
