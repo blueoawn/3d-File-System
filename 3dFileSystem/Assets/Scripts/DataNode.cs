@@ -80,8 +80,8 @@ public class DataNode : MonoBehaviour
                         dn.Size = fileInfo.Length;
                         dn.Path = fi.FullName;
                         dn.Name = fi.Name;
-                        dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
-                        dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
+                        dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
                         dn.IsDir = false;
                         dn.zPos = (zPos + 1f)+10f;
                         dn.parentNode = transform;
@@ -109,8 +109,8 @@ public class DataNode : MonoBehaviour
                         //dn.Size = GetFolderSize(di.FullName);
                         dn.Path = di.FullName;
                         dn.Name = di.Name;
-                        dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
-                        dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
+                        dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
                         dn.IsDir = true;
                         dn.zPos = (zPos + 1f)+10f;
                         dn.parentNode = transform;
@@ -138,10 +138,40 @@ public class DataNode : MonoBehaviour
         }
     }
 
-    public long GetFolderSize(string folderPath)
+    //public long GetFolderSize(string folderPath)
+    //{
+    //   DirectoryInfo di = new DirectoryInfo(folderPath);
+    //   return 0l;
+    //   //return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+    //}
+    public IEnumerable<FileInfo> FileInfos(string folderPath)
     {
-       DirectoryInfo di = new DirectoryInfo(folderPath);
-       return 0l;
-       //return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+        DirectoryInfo di = new DirectoryInfo(folderPath);
+        long folderSize;
+        try
+        {
+            folderSize = di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+            Debug.Log(folderSize);
+            this.Size = folderSize;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Debug.Log("UnauthorizedAccessException");
+            yield break;
+        }
+        catch (PathTooLongException)
+        {
+            Debug.Log("Error path too long exception");
+            yield break;
+        }
+        catch (System.IO.IOException)
+        {
+            Debug.Log("Error IOException");
+            yield break;
+        }
+    }
+    public void GetFolderSize(IEnumerable<FileInfo> fileInfos)
+    {
+        Debug.Log(fileInfos.ToArray().Length);
     }
 }
