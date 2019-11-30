@@ -41,8 +41,11 @@ public class DataNode : MonoBehaviour
                     try
                     {
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
-                        var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        gObj.transform.position = new Vector3(transform.position.x + (2.0f*(i%colLength)), transform.position.y + (2.0f*(i/colLength)), (zPos + 1f)+10f);
+                        GameObject gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
+
+                        gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+                        // var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        // gObj.transform.position = new Vector3(transform.position.x + (2.0f*(i%colLength)), transform.position.y + (2.0f*(i/colLength)), (zPos + 1f)+10f);
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = fi.Name;
                         gObj.AddComponent<DataNode>();
@@ -68,8 +71,11 @@ public class DataNode : MonoBehaviour
                     try
                     {
                         System.IO.DirectoryInfo dirinfo = new DirectoryInfo(di.FullName);
-                        var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                        gObj.transform.position = new Vector3(2.0f*(i%colLength), 2.0f*(i/colLength), (zPos + 1f)+10f);
+                        GameObject gObj = Instantiate(Resources.Load("Prefabs/Sphere")) as GameObject;
+
+                        gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+                       // var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        //gObj.transform.position = new Vector3(2.0f*(i%colLength), 2.0f*(i/colLength), (zPos + 1f)+10f);
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = di.Name;
                         gObj.AddComponent<DataNode>();
