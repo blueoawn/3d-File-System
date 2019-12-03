@@ -17,9 +17,12 @@ public class BackButton : MonoBehaviour
        DataNode node = GridSystem.Instance.currentSelectedDataNode;
        node.CollapseNode();
         //if current Selected has a parent or it has been collapsed
-        if(node.IsDir && node.HasChild && node.parentNode){
-            GridSystem.Instance.currentSelectedDataNode = node.parentNode.GetComponent<DataNode>();
-        }
+        //mark back button pressed if
+       if(node.IsDir)
+       {
+           MainCamera.Instance.BackButtonPressed = true;
+       }
+
     }
 
 }
