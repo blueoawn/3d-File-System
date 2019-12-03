@@ -78,7 +78,7 @@ public class MainCamera : MonoBehaviour
     void Update()
     {
         DataNode node = GridSystem.Instance.currentSelectedDataNode;
-        Debug.Log("node object" + node);
+        // Debug.Log("node object" + node);
 
         if (node != null && node.IsDir && node.HasChild)
         {

@@ -22,6 +22,15 @@ public class DataNode : MonoBehaviour
     DataNode parentDataNode;
     Camera mainCam;
 
+    private float normalize(long fileSize, float max)
+    {
+        if((float)fileSize > max)
+            fileSize = (long)max;
+
+        float norm_val = 2f + ((fileSize - 0f)*(4f - 2f))/(max - 0f);
+        
+        return norm_val;
+    }
 
     public void CollapseNode()
     {
@@ -64,9 +73,11 @@ public class DataNode : MonoBehaviour
                     try
                     {
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
+                        float normVal = normalize(fileInfo.Length, 1e7f);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+                        gObj.transform.position = new Vector3(transform.position.x + (4.5f * (i % colLength)), transform.position.y + (4.5f * (i / colLength)), (zPos + 1f) + 10f);
                         gObj.transform.rotation = Quaternion.identity;
+                        gObj.transform.localScale = new Vector3(normVal, normVal, 1f);
                         gObj.name = fi.Name;
                         gObj.AddComponent<DataNode>();
                         gObj.transform.SetParent(transform);
@@ -92,15 +103,17 @@ public class DataNode : MonoBehaviour
                 {
                     try
                     {
-                        System.IO.DirectoryInfo dirinfo = new DirectoryInfo(di.FullName);
+                        long folderSize = GetFolderSize(di.FullName);
+                        float normVal = normalize(folderSize, 1e10f);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                        gObj.transform.position = new Vector3(2.0f * (i % colLength), 2.0f * (i / colLength), (zPos + 1f) + 10f);
+                        gObj.transform.position = new Vector3(transform.position.x + (4.5f * (i % colLength)), transform.position.y + (4.5f * (i / colLength)), (zPos + 1f) + 10f);
                         gObj.transform.rotation = Quaternion.identity;
+                        gObj.transform.localScale = new Vector3(normVal, normVal, 1f);
                         gObj.name = di.Name;
                         gObj.transform.SetParent(transform);
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
-                        //dn.Size = GetFolderSize(di.FullName);
+                        dn.Size = folderSize;
                         dn.Path = di.FullName;
                         dn.Name = di.Name;
                         dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
@@ -135,9 +148,32 @@ public class DataNode : MonoBehaviour
     public long GetFolderSize(string folderPath)
     {
         DirectoryInfo di = new DirectoryInfo(folderPath);
-        return 0;
-        //return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+        long size = 0L;
+        try
+        {
+            size = di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+        }
+        catch(UnauthorizedAccessException unAuthDir)
+        {
+            Debug.LogWarning($"{unAuthDir.Message}");
+        }
+        
+        return size;
     }
+
+    // static long GetDirectorySize(string p)
+    // {
+    //     string[] a = Directory.GetFiles(p, "*.*");
+
+    //     long b = 0;
+    //     foreach (string name in a)
+    //     {
+    //         FileInfo info = new FileInfo(name);
+    //         b += info.Length;
+    //     }
+        
+    //     return b;
+    // }
 }
 
 
