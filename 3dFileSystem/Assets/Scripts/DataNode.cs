@@ -73,7 +73,7 @@ public class DataNode : MonoBehaviour
                     try
                     {
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
-                        float normVal = normalize(fileInfo.Length, 1e7f);
+                        float normVal = normalize(fileInfo.Length, 1e6f);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
                         gObj.transform.position = new Vector3(transform.position.x + (4.5f * (i % colLength)), transform.position.y + (4.5f * (i / colLength)), (zPos + 1f) + 10f);
                         gObj.transform.rotation = Quaternion.identity;
@@ -103,8 +103,8 @@ public class DataNode : MonoBehaviour
                 {
                     try
                     {
-                        long folderSize = GetFolderSize(di.FullName);
-                        float normVal = normalize(folderSize, 1e10f);
+                        long folderSize = GetDirectorySize(di.FullName);
+                        float normVal = normalize(folderSize, 1e8f);
                         var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                         gObj.transform.position = new Vector3(transform.position.x + (4.5f * (i % colLength)), transform.position.y + (4.5f * (i / colLength)), (zPos + 1f) + 10f);
                         gObj.transform.rotation = Quaternion.identity;
@@ -145,35 +145,43 @@ public class DataNode : MonoBehaviour
         }
     }
 
-    public long GetFolderSize(string folderPath)
-    {
-        DirectoryInfo di = new DirectoryInfo(folderPath);
-        long size = 0L;
-        try
-        {
-            size = di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
-        }
-        catch(UnauthorizedAccessException unAuthDir)
-        {
-            Debug.LogWarning($"{unAuthDir.Message}");
-        }
-        
-        return size;
-    }
-
-    // static long GetDirectorySize(string p)
+    // public long GetFolderSize(string folderPath)
     // {
-    //     string[] a = Directory.GetFiles(p, "*.*");
-
-    //     long b = 0;
-    //     foreach (string name in a)
+    //     DirectoryInfo di = new DirectoryInfo(folderPath);
+    //     long size = 0L;
+    //     try
     //     {
-    //         FileInfo info = new FileInfo(name);
-    //         b += info.Length;
+    //         size = di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+    //     }
+    //     catch(UnauthorizedAccessException unAuthDir)
+    //     {
+    //         Debug.LogWarning($"{unAuthDir.Message}");
     //     }
         
-    //     return b;
+    //     return size;
     // }
+
+    long GetDirectorySize(string p)
+    {
+        string[] a = Directory.GetFiles(p, "*.*", SearchOption.AllDirectories);
+
+        long b = 0;
+        foreach (string name in a)
+        {
+            try
+            {
+                FileInfo info = new FileInfo(name);
+                b += info.Length;
+            }
+            catch(UnauthorizedAccessException unAuthDir)
+            {
+                Debug.Log($"{unAuthDir.Message}");
+                b += 0;
+            }
+        }
+        
+        return b;
+    }
 }
 
 

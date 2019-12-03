@@ -33,40 +33,40 @@ public class CameraControl : MonoBehaviour
         //    transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
         //}
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            transform.Translate(Vector3.up * speed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            transform.Translate(-Vector3.forward * speed * Time.deltaTime);
+            transform.Translate(Vector3.down * speed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Translate(-Vector3.left * speed * Time.deltaTime);
+            transform.Translate(Vector3.right * speed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             transform.Translate(Vector3.left * speed * Time.deltaTime);
         }
 
 
-        if(Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Rotate(Vector3.right, -10 * speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Rotate(Vector3.right, 10 * speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Rotate(Vector3.up, -10 * speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Rotate(Vector3.up, 10 * speed * Time.deltaTime);
-        }
+        // if(Input.GetKey(KeyCode.UpArrow))
+        // {
+        //     transform.Rotate(Vector3.right, -10 * speed * Time.deltaTime);
+        // }
+        // if (Input.GetKey(KeyCode.DownArrow))
+        // {
+        //     transform.Rotate(Vector3.right, 10 * speed * Time.deltaTime);
+        // }
+        // if (Input.GetKey(KeyCode.LeftArrow))
+        // {
+        //     transform.Rotate(Vector3.up, -10 * speed * Time.deltaTime);
+        // }
+        // if (Input.GetKey(KeyCode.RightArrow))
+        // {
+        //     transform.Rotate(Vector3.up, 10 * speed * Time.deltaTime);
+        // }
 
 
     }
