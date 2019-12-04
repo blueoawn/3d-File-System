@@ -1440,6 +1440,66 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3535219283514992477, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -68.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535219283514992477, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 176.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535219283514992476, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535219283514992476, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535219283514992476, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535219283514992476, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535219283514992476, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 584831925117244595, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 584831925117244595, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 584831925117244595, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 584831925117244595, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 584831925117244595, guid: 7864f1ce775a9f740be48ec01b985e7a,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 584831926897779581, guid: 7864f1ce775a9f740be48ec01b985e7a,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.r
