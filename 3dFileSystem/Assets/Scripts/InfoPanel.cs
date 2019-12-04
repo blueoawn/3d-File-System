@@ -34,7 +34,7 @@ public class InfoPanel : MonoBehaviour
     {
         if(dn.IsDir)
         {
-            dn.GetFolderSize(dn.FileInfos(dn.Path));
+            //dn.GetFolderSize(dn.FileInfos(dn.Path));
             typeText.SetText("Folder");
             icon.sprite = folderIcon;
         }
