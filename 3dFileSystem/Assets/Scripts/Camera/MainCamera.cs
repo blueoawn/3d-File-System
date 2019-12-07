@@ -110,11 +110,13 @@ public class MainCamera : MonoBehaviour
             {
                 Instance_OnNodeSelected(node);
                 // Distance moved equals elapsed time times speed..
-                Debug.Log("Hello " + (Time.time - startTime));
-                float distCovered = (Time.time - startTime) * smoothSpeed;
+                // Debug.Log("Hello " + (Time.time - startTime) + " " + startTime);
+                // float distCovered = (Time.time - startTime) * smoothSpeed;
                 // Fraction of journey completed equals current distance divided by total distance.
-                float fractionOfJourney = distCovered / journeyLength;
+                // float fractionOfJourney = distCovered / journeyLength;
+                float fractionOfJourney = 0.15f;
                 // Set our position as a fraction of the distance between the markers.
+                Debug.Log("Journey " + fractionOfJourney);
                 mainCam.transform.position = Vector3.Lerp(transform.position, pos2, fractionOfJourney);
             }
         }

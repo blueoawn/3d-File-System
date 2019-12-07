@@ -185,9 +185,8 @@ public class GridSystem : MonoBehaviour
 		catch(IOException ioexcept)
 		{
 			size = 0L;
-			Debug.Log(ioexcept.Message);
 		}
-		return size == 0;
+		return size == 0L;
     }
 }
 
