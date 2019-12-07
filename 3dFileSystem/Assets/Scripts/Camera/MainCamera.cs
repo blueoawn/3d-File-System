@@ -78,7 +78,7 @@ public class MainCamera : MonoBehaviour
     void Update()
     {
         DataNode node = GridSystem.Instance.currentSelectedDataNode;
-        Debug.Log("node object" + node);
+        // Debug.Log("node object" + node);
 
         if (node != null && node.IsDir && node.HasChild)
         {
@@ -110,6 +110,7 @@ public class MainCamera : MonoBehaviour
             {
                 Instance_OnNodeSelected(node);
                 // Distance moved equals elapsed time times speed..
+                Debug.Log("Hello " + (Time.time - startTime));
                 float distCovered = (Time.time - startTime) * smoothSpeed;
                 // Fraction of journey completed equals current distance divided by total distance.
                 float fractionOfJourney = distCovered / journeyLength;

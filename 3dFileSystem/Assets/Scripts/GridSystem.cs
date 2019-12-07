@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class GridSystem : MonoBehaviour
 {
@@ -55,8 +56,10 @@ public class GridSystem : MonoBehaviour
 		int colLength = 6;
 		foreach (var drive in DriveInfo.GetDrives())
 		{
+			if(isDirEmpty(drive.RootDirectory.FullName))
+				continue;
 			// Create a primitive type cube game object
-			var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			 GameObject gObj = Instantiate(Resources.Load("Prefabs/Galaxy")) as GameObject;
 
 			// Position the game object in world space
 			gObj.transform.position = new Vector3(2.0f * (i % colLength), 1.0f * (i / colLength), 0.0f);
@@ -69,6 +72,7 @@ public class GridSystem : MonoBehaviour
 			dn.Path = drive.RootDirectory.FullName;
 			dn.Name = drive.Name;
 			dn.IsDir = true;
+			dn.HasChild = true;
 			dn.zPos = 0.0f;
 			i++;
 		}
@@ -169,6 +173,22 @@ public class GridSystem : MonoBehaviour
 			}
 		}
 	}
+
+	private bool isDirEmpty(string folderPath)
+    {
+		DirectoryInfo di = new DirectoryInfo(folderPath);
+		long size;
+		try
+		{
+			size = di.EnumerateFiles("*.*", SearchOption.TopDirectoryOnly).Sum(fi => fi.Length);
+		}
+		catch(IOException ioexcept)
+		{
+			size = 0L;
+			Debug.Log(ioexcept.Message);
+		}
+		return size == 0;
+    }
 }
 
 
