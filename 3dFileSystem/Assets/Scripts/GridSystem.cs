@@ -71,6 +71,8 @@ public class GridSystem : MonoBehaviour
 			dn.Size = drive.TotalSize;
 			dn.Path = drive.RootDirectory.FullName;
 			dn.Name = drive.Name;
+			dn.DateCreated = drive.RootDirectory.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
+            dn.DateModified = drive.RootDirectory.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
 			dn.IsDir = true;
 			dn.HasChild = true;
 			dn.zPos = 0.0f;
@@ -139,9 +141,8 @@ public class GridSystem : MonoBehaviour
 					// if there is a hit, we want to get the DataNode component to extract the information
 					DataNode dn = hitInfo.transform.GetComponent<DataNode>();
 
-					// dn.IsSelected = true;
-					infoPanel.fillPanel(dn);
 					dn.ProcessDataNode();
+					infoPanel.fillPanel(dn);
 					if(dn.IsDir)
 						hitDir = true;
 					else
