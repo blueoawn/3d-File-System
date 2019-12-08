@@ -16,32 +16,13 @@ public class InfoPanel : MonoBehaviour
     public Image icon;
     public Sprite fileIcon;
     public Sprite folderIcon;
-    public Sprite driveIcon;
-        
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void fillPanel(DataNode dn)
     {
         if(dn.IsDir)
         {
-            //dn.GetFolderSize(dn.FileInfos(dn.Path));
             typeText.SetText("Folder");
             icon.sprite = folderIcon;
-        }
-        else if(dn.IsDir)
-        {
-            typeText.SetText("Drive");
-            icon.sprite = driveIcon;
         }
         else
         {
@@ -55,6 +36,7 @@ public class InfoPanel : MonoBehaviour
             }
             icon.sprite = fileIcon;
         }
+
         nameText.SetText(dn.Name);
         nameText.fontStyle = FontStyles.Bold;
         locationText.SetText(dn.Path);
