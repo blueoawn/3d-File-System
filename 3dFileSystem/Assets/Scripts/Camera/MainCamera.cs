@@ -77,6 +77,8 @@ public class MainCamera : MonoBehaviour
             }
             else
             {
+                if(node)
+                    GridSystem.Instance.currentSelectedDataNode = node;
                 BackButtonPressed = false;
             }
         }

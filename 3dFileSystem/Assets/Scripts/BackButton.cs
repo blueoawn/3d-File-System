@@ -13,7 +13,8 @@ public class BackButton : MonoBehaviour
     public void SetCurrentSelectedNode()
     {
         DataNode node = GridSystem.Instance.currentSelectedDataNode;
-        if(node.parentDataNode)
+        
+        if(!node.IsDir)
         {
             node = node.parentDataNode;
             GridSystem.Instance.currentSelectedDataNode = node;
