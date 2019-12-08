@@ -10,8 +10,8 @@ using System.Linq;
 public class GridSystem : MonoBehaviour
 {
 
-	public delegate void NodeSelected(DataNode node);
-	public event NodeSelected OnNodeSelected;
+	// public delegate void NodeSelected(DataNode node);
+	// public event NodeSelected OnNodeSelected;
 
 	public Text txtSelectedDataNode;
 	public Text txtHoveredOverDataNode;
@@ -21,7 +21,7 @@ public class GridSystem : MonoBehaviour
 	public DataNode currentSelectedDataNode;
 	public float smoothSpeed = 0.0125f;
 	GameObject textGameObject;
-	// public InfoPanel infoPanel;
+	public bool hitDir;
 
 	private static GridSystem _instance;
 
@@ -58,7 +58,7 @@ public class GridSystem : MonoBehaviour
 		{
 			if(isDirEmpty(drive.RootDirectory.FullName))
 				continue;
-			// Create a primitive type cube game object
+
 			 GameObject gObj = Instantiate(Resources.Load("Prefabs/Galaxy")) as GameObject;
 
 			// Position the game object in world space
@@ -139,36 +139,25 @@ public class GridSystem : MonoBehaviour
 					// if there is a hit, we want to get the DataNode component to extract the information
 					DataNode dn = hitInfo.transform.GetComponent<DataNode>();
 
-					// if(dn.IsFolder)
-					// {
-					//     DirectoryInfo diTop = new DirectoryInfo(dn.Path);
-					//     int samples = diTop.GetDirectories("*").Length;
-					//     dn.gameObject.transform.Translate(Vector3.forward * -(samples%2)*1.5f, Space.Self);
-					//     diTop = null;
-					// }
-
-					dn.IsSelected = true;
+					// dn.IsSelected = true;
 					infoPanel.fillPanel(dn);
 					dn.ProcessDataNode();
-
-					if (currentSelectedDataNode == null)
-					{
-						currentSelectedDataNode = dn;
-					}
+					if(dn.IsDir)
+						hitDir = true;
 					else
-					{
-						currentSelectedDataNode.IsSelected = false;
-						currentSelectedDataNode = dn;
-					}
+						hitDir = false;
+					currentSelectedDataNode = dn;
 					//do camera movement functionality
 
 					//if my selected node is a directory and it has children
 
-					_instance.currentSelectedDataNode = currentSelectedDataNode;
+					// _instance.currentSelectedDataNode = currentSelectedDataNode;
 
-					if (OnNodeSelected != null)
-						OnNodeSelected(dn);
-
+					// if (OnNodeSelected != null)
+					// {
+					// 	Debug.Log("Hello World");
+					// 	OnNodeSelected(dn);
+					// }
 				}
 			}
 		}
@@ -182,7 +171,7 @@ public class GridSystem : MonoBehaviour
 		{
 			size = di.EnumerateFiles("*.*", SearchOption.TopDirectoryOnly).Sum(fi => fi.Length);
 		}
-		catch(IOException ioexcept)
+		catch
 		{
 			size = 0L;
 		}
