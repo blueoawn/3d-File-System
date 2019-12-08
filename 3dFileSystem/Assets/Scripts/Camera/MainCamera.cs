@@ -27,20 +27,6 @@ public class MainCamera : MonoBehaviour
         _instance = this;
     }
 
-
-    // private void Instance_OnNodeSelected(DataNode node)
-    // {
-    //     if (BackButtonPressed)
-    //     {
-    //         pos = node.transform.position - new Vector3(0f, 0f, 10f);
-    //         // BackButtonPressed = false;
-    //     }
-    //     else
-    //     {
-    //         pos = node.transform.position + node.transform.forward;
-    //     }
-    // }
-
     // Update is called once per frame
     void Update()
     {
@@ -58,8 +44,7 @@ public class MainCamera : MonoBehaviour
                 GridSystem.Instance.hitDir = false;
             }
         }
-
-        if(node && BackButtonPressed)
+        else if(node && BackButtonPressed)
         {
             if(node.parentDataNode == null)
             {
@@ -80,6 +65,27 @@ public class MainCamera : MonoBehaviour
                 if(node)
                     GridSystem.Instance.currentSelectedDataNode = node;
                 BackButtonPressed = false;
+            }
+        }
+        else
+        {
+            // Move Camera
+            float speed = 2.0f;
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            {
+                transform.Translate(Vector3.up * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                transform.Translate(Vector3.down * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.Translate(Vector3.right * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.Translate(Vector3.left * speed * Time.deltaTime);
             }
         }
     }
