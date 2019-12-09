@@ -25,4 +25,6 @@ public class BackButton : MonoBehaviour
 
     }
 
+      //gObj.GetComponent<ParticleSystem>().enableEmission = false;
+
 }

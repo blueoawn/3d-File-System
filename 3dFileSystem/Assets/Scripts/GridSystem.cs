@@ -56,10 +56,13 @@ public class GridSystem : MonoBehaviour
 		foreach (var drive in DriveInfo.GetDrives())
 		{
 			// Create a primitive type cube game object
-			var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			//var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            var gObj = Instantiate(Resources.Load("Prefabs/Galaxy")) as GameObject;
 
-			// Position the game object in world space
-			gObj.transform.position = new Vector3(2.0f * (i % colLength), 1.0f * (i / colLength), 0.0f);
+            //gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+
+            // Position the game object in world space
+            gObj.transform.position = new Vector3(2.0f * (i % colLength), 1.0f * (i / colLength), 0.0f);
 			gObj.transform.rotation = Quaternion.identity;
 			gObj.name = drive.Name;
 
