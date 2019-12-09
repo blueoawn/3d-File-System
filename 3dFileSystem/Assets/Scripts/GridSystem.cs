@@ -142,7 +142,6 @@ public class GridSystem : MonoBehaviour
 					DataNode dn = hitInfo.transform.GetComponent<DataNode>();
 
 					dn.ProcessDataNode();
-					infoPanel.fillPanel(dn);
 					if(dn.IsDir)
 						hitDir = true;
 					else

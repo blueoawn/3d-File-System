@@ -17,31 +17,37 @@ public class InfoPanel : MonoBehaviour
     public Sprite fileIcon;
     public Sprite folderIcon;
 
-    public void fillPanel(DataNode dn)
+
+
+    private void Update()
     {
-        if(dn.IsDir)
+        DataNode dn = GridSystem.Instance.currentSelectedDataNode;
+        if (dn != null)
         {
-            typeText.SetText("Folder");
-            icon.sprite = folderIcon;
-        }
-        else
-        {
-            if(string.IsNullOrEmpty(dn.Extension))
+            if (dn.IsDir)
             {
-                typeText.SetText($"File");
+                typeText.SetText("Folder");
+                icon.sprite = folderIcon;
             }
             else
             {
-                typeText.SetText($"File ({dn.Extension})");
+                if (string.IsNullOrEmpty(dn.Extension))
+                {
+                    typeText.SetText($"File");
+                }
+                else
+                {
+                    typeText.SetText($"File ({dn.Extension})");
+                }
+                icon.sprite = fileIcon;
             }
-            icon.sprite = fileIcon;
+            nameText.SetText(dn.Name);
+            nameText.fontStyle = FontStyles.Bold;
+            locationText.SetText(dn.Path);
+            sizeText.SetText(string.Format("{0:#,##0}", dn.Size) + " bytes");
+            dateCreatedText.SetText(dn.DateCreated);
+            dateModifiedText.SetText(dn.DateModified);
         }
-
-        nameText.SetText(dn.Name);
-        nameText.fontStyle = FontStyles.Bold;
-        locationText.SetText(dn.Path);
-        sizeText.SetText(string.Format("{0:#,##0}", dn.Size) + " bytes");
-        dateCreatedText.SetText(dn.DateCreated);
-        dateModifiedText.SetText(dn.DateModified);
     }
+
 }
