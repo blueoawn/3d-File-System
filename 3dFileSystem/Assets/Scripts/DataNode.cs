@@ -65,7 +65,7 @@ public class DataNode : MonoBehaviour
                     {
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
                         //var gObj = (GameObject)Resources.Load("Prefabs/Planet", typeof(GameObject));
-                        GameObject gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
+                        GameObject gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
 
                         gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
                         //var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
