@@ -16,9 +16,6 @@ public class DataNode : MonoBehaviour
     public string DateCreated;
     public string DateModified;
     public bool HasChild = false;
-    // public bool IsSelected = false;
-    // public bool IsExpanded = false;
-    // public Transform parentNode;
     public DataNode parentDataNode;
     Camera mainCam;
 

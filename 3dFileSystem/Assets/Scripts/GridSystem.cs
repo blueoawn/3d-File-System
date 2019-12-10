@@ -10,16 +10,12 @@ using System.Linq;
 public class GridSystem : MonoBehaviour
 {
 
-	// public delegate void NodeSelected(DataNode node);
-	// public event NodeSelected OnNodeSelected;
 
 	public Text txtSelectedDataNode;
 	public Text txtHoveredOverDataNode;
 
 	public InfoPanel infoPanel;
-	Camera mainCam;
 	public DataNode currentSelectedDataNode;
-	public float smoothSpeed = 0.0125f;
 	GameObject textGameObject;
 	public bool hitDir;
 
@@ -147,17 +143,6 @@ public class GridSystem : MonoBehaviour
 					else
 						hitDir = false;
 					currentSelectedDataNode = dn;
-					//do camera movement functionality
-
-					//if my selected node is a directory and it has children
-
-					// _instance.currentSelectedDataNode = currentSelectedDataNode;
-
-					// if (OnNodeSelected != null)
-					// {
-					// 	Debug.Log("Hello World");
-					// 	OnNodeSelected(dn);
-					// }
 				}
 			}
 		}
