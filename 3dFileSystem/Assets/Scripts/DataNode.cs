@@ -57,7 +57,7 @@ public class DataNode : MonoBehaviour
                         if(fi.Extension == ".log")
                         {
                             //do some prefab
-                            gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
+                            gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
                         }
 
                         else if (fi.Extension == ".sys")
