@@ -16,10 +16,7 @@ public class DataNode : MonoBehaviour
     public string DateCreated;
     public string DateModified;
     public bool HasChild = false;
-    public bool IsSelected = false;
-    public bool IsExpanded = false;
-    public Transform parentNode;
-    DataNode parentDataNode;
+    public DataNode parentDataNode;
     Camera mainCam;
 
 
@@ -31,14 +28,13 @@ public class DataNode : MonoBehaviour
         {
             foreach (Transform t in transform.transform)
             {
+                if(t.gameObject.name.Contains("Particle System"))
+                    continue;
                 Destroy(t.gameObject);
             }
         }
 
     }
-
-
-
 
     public void ProcessDataNode()
     {
@@ -46,17 +42,8 @@ public class DataNode : MonoBehaviour
         {
             DirectoryInfo diTop = new DirectoryInfo(Path);
 
-
-            //parentDataNode = 
             try
             {
-                // float transformPositionX = 0f;
-                // float transformPositionY = 0f;
-                // float transformPositionZ = 0f;
-
-                // float initXPositon = transform.position.x;
-                // float initYPositon = transform.position.y;
-                // float initZPosition = transform.position.z + 1f;
                 int i = 0;
                 int colLength = 6;
                 foreach (var fi in diTop.EnumerateFiles())
@@ -106,9 +93,9 @@ public class DataNode : MonoBehaviour
                         dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = false;
-                        dn.zPos = (zPos + 1f) + 10f;
-                        dn.parentNode = transform;
-                        HasChild = true;
+                        dn.zPos = zPos + 10f;
+                        dn.parentDataNode = this;
+                        HasChild = false;
                         i++;
 
                          
@@ -124,24 +111,22 @@ public class DataNode : MonoBehaviour
                     try
                     {
                         System.IO.DirectoryInfo dirinfo = new DirectoryInfo(di.FullName);
-                        //var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                        //gObj.transform.position = new Vector3(2.0f * (i % colLength), 2.0f * (i / colLength), (zPos + 1f) + 10f);
                         GameObject gObj = Instantiate(Resources.Load("Prefabs/Galaxy")) as GameObject;
 
-                        gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+                        gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), zPos + 10f);
                         gObj.transform.rotation = Quaternion.identity;
                         gObj.name = di.Name;
                         gObj.transform.SetParent(transform);
                         gObj.AddComponent<DataNode>();
                         DataNode dn = gObj.GetComponent<DataNode>();
-                        //dn.Size = GetFolderSize(di.FullName);
+                        dn.Size = getFolderSize(di.FullName);
                         dn.Path = di.FullName;
                         dn.Name = di.Name;
-                        dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
-                        dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateCreated = di.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
+                        dn.DateModified = di.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
                         dn.IsDir = true;
-                        dn.zPos = (zPos + 1f) + 10f;
-                        dn.parentNode = transform;
+                        dn.zPos = zPos + 10f;
+                        dn.parentDataNode = this;
                         HasChild = true;
                         i++;
                     }
@@ -166,11 +151,49 @@ public class DataNode : MonoBehaviour
         }
     }
 
-    public long GetFolderSize(string folderPath)
+    public IEnumerable<FileInfo> FileInfos(string folderPath)
     {
         DirectoryInfo di = new DirectoryInfo(folderPath);
-        return 0;
-        //return di.EnumerateFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+        long folderSize;
+        try
+        {
+            folderSize = di.EnumerateFiles("*.*", SearchOption.TopDirectoryOnly).Sum(fi => fi.Length);
+            Debug.Log(folderSize);
+            this.Size = folderSize;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Debug.Log("UnauthorizedAccessException");
+            yield break;
+        }
+        catch (PathTooLongException)
+        {
+            Debug.Log("Error path too long exception");
+            yield break;
+        }
+        catch (System.IO.IOException)
+        {
+            Debug.Log("Error IOException");
+            yield break;
+        }
+    }
+
+    // public void GetFolderSize(IEnumerable<FileInfo> fileInfos)
+    // {
+    //     Debug.Log(fileInfos.ToArray().Length);
+    // }
+
+    private long getFolderSize(string path)
+    {
+        DirectoryInfo di = new DirectoryInfo(path);
+        try
+        {
+            return di.EnumerateFiles("*.*", SearchOption.TopDirectoryOnly).Sum(fi => fi.Length);
+        }
+        catch
+        {
+            return 0L;
+        }
     }
 }
 

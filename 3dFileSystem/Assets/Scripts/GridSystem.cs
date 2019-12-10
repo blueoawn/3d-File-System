@@ -5,22 +5,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class GridSystem : MonoBehaviour
 {
 
-	public delegate void NodeSelected(DataNode node);
-	public event NodeSelected OnNodeSelected;
 
 	public Text txtSelectedDataNode;
 	public Text txtHoveredOverDataNode;
 
 	public InfoPanel infoPanel;
-	Camera mainCam;
 	public DataNode currentSelectedDataNode;
-	public float smoothSpeed = 0.0125f;
 	GameObject textGameObject;
-	// public InfoPanel infoPanel;
+	public bool hitDir;
 
 	private static GridSystem _instance;
 
@@ -55,14 +52,13 @@ public class GridSystem : MonoBehaviour
 		int colLength = 6;
 		foreach (var drive in DriveInfo.GetDrives())
 		{
-			// Create a primitive type cube game object
-			//var gObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            var gObj = Instantiate(Resources.Load("Prefabs/Galaxy")) as GameObject;
+			if(isDirEmpty(drive.RootDirectory.FullName))
+				continue;
 
-            //gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+			 GameObject gObj = Instantiate(Resources.Load("Prefabs/Galaxy")) as GameObject;
 
-            // Position the game object in world space
-            gObj.transform.position = new Vector3(2.0f * (i % colLength), 1.0f * (i / colLength), 0.0f);
+			// Position the game object in world space
+			gObj.transform.position = new Vector3(2.0f * (i % colLength), 1.0f * (i / colLength), 0.0f);
 			gObj.transform.rotation = Quaternion.identity;
 			gObj.name = drive.Name;
 
@@ -71,7 +67,10 @@ public class GridSystem : MonoBehaviour
 			dn.Size = drive.TotalSize;
 			dn.Path = drive.RootDirectory.FullName;
 			dn.Name = drive.Name;
+			dn.DateCreated = drive.RootDirectory.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
+            dn.DateModified = drive.RootDirectory.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
 			dn.IsDir = true;
+			dn.HasChild = true;
 			dn.zPos = 0.0f;
 			i++;
 		}
@@ -138,40 +137,31 @@ public class GridSystem : MonoBehaviour
 					// if there is a hit, we want to get the DataNode component to extract the information
 					DataNode dn = hitInfo.transform.GetComponent<DataNode>();
 
-					// if(dn.IsFolder)
-					// {
-					//     DirectoryInfo diTop = new DirectoryInfo(dn.Path);
-					//     int samples = diTop.GetDirectories("*").Length;
-					//     dn.gameObject.transform.Translate(Vector3.forward * -(samples%2)*1.5f, Space.Self);
-					//     diTop = null;
-					// }
-
-					dn.IsSelected = true;
-					infoPanel.fillPanel(dn);
 					dn.ProcessDataNode();
-
-					if (currentSelectedDataNode == null)
-					{
-						currentSelectedDataNode = dn;
-					}
+					if(dn.IsDir)
+						hitDir = true;
 					else
-					{
-						currentSelectedDataNode.IsSelected = false;
-						currentSelectedDataNode = dn;
-					}
-					//do camera movement functionality
-
-					//if my selected node is a directory and it has children
-
-					_instance.currentSelectedDataNode = currentSelectedDataNode;
-
-					if (OnNodeSelected != null)
-						OnNodeSelected(dn);
-
+						hitDir = false;
+					currentSelectedDataNode = dn;
 				}
 			}
 		}
 	}
+
+	private bool isDirEmpty(string folderPath)
+    {
+		DirectoryInfo di = new DirectoryInfo(folderPath);
+		long size;
+		try
+		{
+			size = di.EnumerateFiles("*.*", SearchOption.TopDirectoryOnly).Sum(fi => fi.Length);
+		}
+		catch
+		{
+			size = 0L;
+		}
+		return size == 0L;
+    }
 }
 
 

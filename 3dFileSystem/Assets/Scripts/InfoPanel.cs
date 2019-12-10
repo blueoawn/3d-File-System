@@ -16,50 +16,38 @@ public class InfoPanel : MonoBehaviour
     public Image icon;
     public Sprite fileIcon;
     public Sprite folderIcon;
-    public Sprite driveIcon;
-        
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    public void fillPanel(DataNode dn)
+    private void Update()
     {
-        if(dn.IsDir)
+        DataNode dn = GridSystem.Instance.currentSelectedDataNode;
+        if (dn != null)
         {
-            dn.Size = dn.GetFolderSize(dn.Path);
-            typeText.SetText("Folder");
-            icon.sprite = folderIcon;
-        }
-        else if(dn.IsDir)
-        {
-            typeText.SetText("Drive");
-            icon.sprite = driveIcon;
-        }
-        else
-        {
-            if(string.IsNullOrEmpty(dn.Extension))
+            if (dn.IsDir)
             {
-                typeText.SetText($"File");
+                typeText.SetText("Folder");
+                icon.sprite = folderIcon;
             }
             else
             {
-                typeText.SetText($"File ({dn.Extension})");
+                if (string.IsNullOrEmpty(dn.Extension))
+                {
+                    typeText.SetText($"File");
+                }
+                else
+                {
+                    typeText.SetText($"File ({dn.Extension})");
+                }
+                icon.sprite = fileIcon;
             }
-            icon.sprite = fileIcon;
+            nameText.SetText(dn.Name);
+            nameText.fontStyle = FontStyles.Bold;
+            locationText.SetText(dn.Path);
+            sizeText.SetText(string.Format("{0:#,##0}", dn.Size) + " bytes");
+            dateCreatedText.SetText(dn.DateCreated);
+            dateModifiedText.SetText(dn.DateModified);
         }
-        nameText.SetText(dn.Name);
-        nameText.fontStyle = FontStyles.Bold;
-        locationText.SetText(dn.Path);
-        sizeText.SetText(string.Format("{0:#,##0}", dn.Size) + " bytes");
-        dateCreatedText.SetText(dn.DateCreated);
-        dateModifiedText.SetText(dn.DateModified);
     }
+
 }
