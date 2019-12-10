@@ -65,12 +65,36 @@ public class DataNode : MonoBehaviour
                     {
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
                         //var gObj = (GameObject)Resources.Load("Prefabs/Planet", typeof(GameObject));
-                        GameObject gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
+                        //GameObject gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
+                        GameObject gObj = null;
+                        if(fi.Extension == ".log")
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
+                        }
 
+                        else if (fi.Extension == ".sys")
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
+                        }
+
+                        else if (fi.Extension == ".xml")
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Mercury")) as GameObject;
+                        }
+
+                        else
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Pluto")) as GameObject;
+                        }
                         gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
                         //var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
                         //gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
                         gObj.transform.rotation = Quaternion.identity;
+                     
                         gObj.name = fi.Name;
                         gObj.AddComponent<DataNode>();
                         gObj.transform.SetParent(transform);
@@ -78,6 +102,7 @@ public class DataNode : MonoBehaviour
                         dn.Size = fileInfo.Length;
                         dn.Path = fi.FullName;
                         dn.Name = fi.Name;
+                        dn.Extension = fi.Extension;
                         dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = false;
@@ -85,6 +110,8 @@ public class DataNode : MonoBehaviour
                         dn.parentNode = transform;
                         HasChild = true;
                         i++;
+
+                         
                     }
                     catch (UnauthorizedAccessException unAuthTop)
                     {
