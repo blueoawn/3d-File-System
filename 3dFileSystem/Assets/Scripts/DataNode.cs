@@ -51,10 +51,37 @@ public class DataNode : MonoBehaviour
                     try
                     {
                         var fileInfo = new System.IO.FileInfo(fi.FullName);
-                        GameObject gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
+                        //var gObj = (GameObject)Resources.Load("Prefabs/Planet", typeof(GameObject));
+                        //GameObject gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
+                        GameObject gObj = null;
+                        if(fi.Extension == ".log")
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
+                        }
 
-                        gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), zPos + 10f);
+                        else if (fi.Extension == ".sys")
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Jupiter")) as GameObject;
+                        }
+
+                        else if (fi.Extension == ".xml")
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Mercury")) as GameObject;
+                        }
+
+                        else
+                        {
+                            //do some prefab
+                            gObj = Instantiate(Resources.Load("Prefabs/Pluto")) as GameObject;
+                        }
+                        gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+                        //var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        //gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
                         gObj.transform.rotation = Quaternion.identity;
+                     
                         gObj.name = fi.Name;
                         gObj.AddComponent<DataNode>();
                         gObj.transform.SetParent(transform);
@@ -62,13 +89,16 @@ public class DataNode : MonoBehaviour
                         dn.Size = fileInfo.Length;
                         dn.Path = fi.FullName;
                         dn.Name = fi.Name;
-                        dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
-                        dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm:ss tt");
+                        dn.Extension = fi.Extension;
+                        dn.DateCreated = fi.CreationTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
+                        dn.DateModified = fi.LastWriteTime.ToString("MM'/'dd'/'yyyy hh:mm tt");
                         dn.IsDir = false;
                         dn.zPos = zPos + 10f;
                         dn.parentDataNode = this;
                         HasChild = false;
                         i++;
+
+                         
                     }
                     catch (UnauthorizedAccessException unAuthTop)
                     {
