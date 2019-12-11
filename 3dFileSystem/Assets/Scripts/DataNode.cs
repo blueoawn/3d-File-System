@@ -80,19 +80,19 @@ public class DataNode : MonoBehaviour
                             //var gObj = (GameObject)Resources.Load("Prefabs/Planet", typeof(GameObject));
                             //GameObject gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
                             GameObject gObj = null;
-                            if (fi.Extension == ".log")
+                            if (fi.Extension == ".png")
                             {
                                 //do some prefab
                                 gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
                             }
 
-                            else if (fi.Extension == ".sys")
+                            else if (fi.Extension == ".txt")
                             {
                                 //do some prefab
                                 gObj = Instantiate(Resources.Load("Prefabs/Jupiter")) as GameObject;
                             }
 
-                            else if (fi.Extension == ".xml")
+                            else if (fi.Extension == ".pdf")
                             {
                                 //do some prefab
                                 gObj = Instantiate(Resources.Load("Prefabs/Mercury")) as GameObject;
