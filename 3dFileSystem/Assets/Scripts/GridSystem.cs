@@ -105,7 +105,7 @@ public class GridSystem : MonoBehaviour
 				textGameObject.transform.parent = dn.transform;
 
 				TextMeshPro myText = textGameObject.AddComponent<TextMeshPro>();
-				myText.text = $"{dn.Path}";
+				myText.text = $"{dn.Name}";
 				myText.fontSize = 4;
 				RectTransform rt = myText.GetComponent<RectTransform>();
 				//making all the margins zero and so that the text appears where we want it to
