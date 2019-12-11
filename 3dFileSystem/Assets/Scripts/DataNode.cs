@@ -66,7 +66,7 @@ public class DataNode : MonoBehaviour
                     GameObject gObj = null;
                     gObj = Instantiate(Resources.Load("Prefabs/Astronaut")) as GameObject;
                     gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
-                    gObj.transform.rotation = Quaternion.identity;
+                    gObj.transform.rotation = Quaternion.Euler(180, 0, 180);
                     gObj.transform.SetParent(transform);
 
                 }
@@ -177,7 +177,8 @@ public class DataNode : MonoBehaviour
                 GameObject gObj = null;
                 gObj = Instantiate(Resources.Load("Prefabs/Denied")) as GameObject;
                 gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
-                gObj.transform.rotation = Quaternion.identity;
+               // Instantiate(arrowPrefab, new Vector3(-78, 1, 65), Quaternion.Euler(0, 180, 0));
+                gObj.transform.rotation = Quaternion.Euler(0,180,0);
                 gObj.transform.SetParent(transform);
                 Debug.LogWarning($"unAuthDir: {unAuthDir.Message}");
             }
