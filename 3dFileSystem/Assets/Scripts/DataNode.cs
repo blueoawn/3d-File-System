@@ -79,17 +79,17 @@ public class DataNode : MonoBehaviour
                             var fileInfo = new System.IO.FileInfo(fi.FullName);
                            
                             GameObject gObj = null;
-                            if (fi.Extension == ".log")
+                            if (fi.Extension == ".txt")
                             {
                                 gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
                             }
 
-                            else if (fi.Extension == ".sys")
+                            else if (fi.Extension == ".pdf")
                             {
                                 gObj = Instantiate(Resources.Load("Prefabs/Jupiter")) as GameObject;
                             }
 
-                            else if (fi.Extension == ".xml")
+                            else if (fi.Extension == ".png")
                             {
                                 gObj = Instantiate(Resources.Load("Prefabs/Mercury")) as GameObject;
                             }
