@@ -66,6 +66,8 @@ public class DataNode : MonoBehaviour
                     gObj = Instantiate(Resources.Load("Prefabs/Astronaut")) as GameObject;
                     gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
                     gObj.transform.rotation = Quaternion.identity;
+                    gObj.transform.SetParent(transform);
+
                 }
                 else
                 {
@@ -167,9 +169,15 @@ public class DataNode : MonoBehaviour
             catch (DirectoryNotFoundException dirNotFound)
             {
                 Debug.LogWarning($"{dirNotFound.Message}");
+
             }
             catch (UnauthorizedAccessException unAuthDir)
             {
+                GameObject gObj = null;
+                gObj = Instantiate(Resources.Load("Prefabs/Denied")) as GameObject;
+                gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
+                gObj.transform.rotation = Quaternion.identity;
+                gObj.transform.SetParent(transform);
                 Debug.LogWarning($"unAuthDir: {unAuthDir.Message}");
             }
             catch (PathTooLongException longPath)
