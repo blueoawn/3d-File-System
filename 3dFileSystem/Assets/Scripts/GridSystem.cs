@@ -113,20 +113,21 @@ public class GridSystem : MonoBehaviour
 				rt.anchorMax = Vector3.zero;
 				rt.anchorMin = Vector3.zero;
 				rt.pivot = Vector3.zero;
-				rt.sizeDelta = new Vector2(5f, 1.5f);
-			}
-			else
-			{
-				if (textGameObject != null)
-				{
-					Destroy(textGameObject);
-				}
+				rt.sizeDelta = new Vector2(5f, 1.35f);
 			}
 		}
-		#endregion
+        else
+        {
+            if (textGameObject != null)
+            {
+                Destroy(textGameObject);
+            }
+        }
 
-		// Check to see if the Left Mouse Button was clicked
-		if (Input.GetMouseButtonDown(0))
+        #endregion
+
+        // Check to see if the Left Mouse Button was clicked
+        if (Input.GetMouseButtonDown(0))
 		{
 			// Create a raycase from the screen-space into World Space, store the data in hitInfo Object
 			bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
