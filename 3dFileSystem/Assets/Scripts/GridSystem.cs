@@ -55,7 +55,7 @@ public class GridSystem : MonoBehaviour
 			if(isDirEmpty(drive.RootDirectory.FullName))
 				continue;
 
-			 GameObject gObj = Instantiate(Resources.Load("Prefabs/Drive-galaxy2")) as GameObject;
+			 GameObject gObj = Instantiate(Resources.Load("Prefabs/Drive-galaxy")) as GameObject;
 
 			// Position the game object in world space
 			gObj.transform.position = new Vector3(2.0f * (i % colLength), 1.0f * (i / colLength), 0.0f);
