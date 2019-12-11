@@ -53,19 +53,19 @@ public class DataNode : MonoBehaviour
         if (IsDir)
         {
             DirectoryInfo diTop = new DirectoryInfo(Path);
-            int i = 0;
-            int colLength = 6;
 
             try
             {
-             
+                int i = 0;
+                int colLength = 6;
+
                 if (IsDirectoryEmpty(Path))
                 {
+                    Debug.Log("my directory is empty");
                     GameObject gObj = null;
                     gObj = Instantiate(Resources.Load("Prefabs/Astronaut")) as GameObject;
-                    gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), 0, (zPos + 1f) + 10f);
+                    gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
                     gObj.transform.rotation = Quaternion.identity;
-                    gObj.transform.SetParent(transform);
                 }
                 else
                 {
@@ -77,29 +77,35 @@ public class DataNode : MonoBehaviour
 
 
                             var fileInfo = new System.IO.FileInfo(fi.FullName);
-                           
+                            //var gObj = (GameObject)Resources.Load("Prefabs/Planet", typeof(GameObject));
+                            //GameObject gObj = Instantiate(Resources.Load("Prefabs/Planet")) as GameObject;
                             GameObject gObj = null;
                             if (fi.Extension == ".txt")
                             {
+                                //do some prefab
                                 gObj = Instantiate(Resources.Load("Prefabs/Earth")) as GameObject;
                             }
 
                             else if (fi.Extension == ".pdf")
                             {
+                                //do some prefab
                                 gObj = Instantiate(Resources.Load("Prefabs/Jupiter")) as GameObject;
                             }
 
                             else if (fi.Extension == ".png")
                             {
+                                //do some prefab
                                 gObj = Instantiate(Resources.Load("Prefabs/Mercury")) as GameObject;
                             }
 
                             else
                             {
+                                //do some prefab
                                 gObj = Instantiate(Resources.Load("Prefabs/Pluto")) as GameObject;
                             }
                             gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
-                   
+                            //var gObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            //gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
                             gObj.transform.rotation = Quaternion.identity;
 
                             gObj.name = fi.Name;
@@ -130,9 +136,9 @@ public class DataNode : MonoBehaviour
                     {
                         try
                         {
-                                                        
                             System.IO.DirectoryInfo dirinfo = new DirectoryInfo(di.FullName);
                             GameObject gObj = Instantiate(Resources.Load("Prefabs/Galaxy")) as GameObject;
+
                             gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), zPos + 10f);
                             gObj.transform.rotation = Quaternion.identity;
                             gObj.name = di.Name;
@@ -164,11 +170,6 @@ public class DataNode : MonoBehaviour
             }
             catch (UnauthorizedAccessException unAuthDir)
             {
-                GameObject gObj = null;
-                gObj = Instantiate(Resources.Load("Prefabs/Denied")) as GameObject;
-                gObj.transform.position = new Vector3(transform.position.x + (2.0f * (i % colLength)), transform.position.y + (2.0f * (i / colLength)), (zPos + 1f) + 10f);
-                gObj.transform.rotation = Quaternion.identity;
-                gObj.transform.SetParent(transform);     
                 Debug.LogWarning($"unAuthDir: {unAuthDir.Message}");
             }
             catch (PathTooLongException longPath)
