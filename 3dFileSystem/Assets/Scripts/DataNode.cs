@@ -52,12 +52,13 @@ public class DataNode : MonoBehaviour
     {
         if (IsDir)
         {
+                int i = 0;
+                int colLength = 6;
             DirectoryInfo diTop = new DirectoryInfo(Path);
 
             try
             {
-                int i = 0;
-                int colLength = 6;
+                
 
                 if (IsDirectoryEmpty(Path))
                 {
